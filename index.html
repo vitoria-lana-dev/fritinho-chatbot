@@ -1,0 +1,2017 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+    <title>Fritinho | Frittin Pastelaria</title>
+    <meta name="theme-color" content="#ad0b12">
+    <style>
+        :root {
+            --red: #b90c15;
+            --deep: #7c090e;
+            --gold: #ffc928;
+            --yellow: #ffe47a;
+            --ink: #302126;
+            --paper: #fffefa;
+            --soft: #fff3cd;
+            --line: #e9d7c9
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            height: 100%;
+            overflow: hidden;
+            overscroll-behavior: none;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            height: 100dvh;
+            min-height: 0;
+            overflow: hidden;
+            overscroll-behavior: none;
+            background: linear-gradient(135deg, #f7ecd9, #fff8ec 55%, #f6e0b3);
+            font-family: Inter, 'Segoe UI', Arial, sans-serif;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px
+        }
+
+        .app {
+            width: min(1280px, 100%);
+            height: min(850px, calc(100dvh - 28px));
+            min-height: 0;
+            max-height: 100%;
+            background: #fff;
+            display: flex;
+            overflow: hidden;
+            border: 1px solid #f1d6ad;
+            border-radius: 26px;
+            box-shadow: 0 28px 80px #6f24152e
+        }
+
+        .sidebar {
+            flex: 0 0 292px;
+            color: white;
+            background: radial-gradient(circle at 70% 5%, #fc4227 0, transparent 40%), linear-gradient(158deg, #c70b10 0%, #96000b 62%, #5f0308 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 24px 20px;
+            display: flex;
+            align-items: center;
+            flex-direction: column
+        }
+
+        .sidebar:before {
+            content: "";
+            width: 460px;
+            height: 460px;
+            border: 18px solid rgba(255, 209, 28, .72);
+            border-radius: 50%;
+            position: absolute;
+            left: -285px;
+            top: 115px;
+            pointer-events: none
+        }
+
+        .sidebar:after {
+            content: "";
+            width: 330px;
+            height: 330px;
+            border: 12px solid rgba(255, 202, 18, .22);
+            border-radius: 50%;
+            position: absolute;
+            right: -225px;
+            bottom: -170px
+        }
+
+        .sidebar-cards {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin-top: auto;
+            min-height: 0;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+
+        .side-card {
+            border-radius: 18px;
+            border: 1px solid #fbd474;
+            background: linear-gradient(120deg, #fffdf3, #fff0c5);
+            box-shadow: 0 6px 15px #42000028;
+            padding: 13px 14px;
+            color: #522013;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .side-card h3 {
+            margin: 0 0 9px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-size: 17px;
+            color: #940e13;
+        }
+
+        .side-card h3 .side-symbol {
+            background: var(--gold);
+            color: #820d0d;
+            border-radius: 100%;
+            width: 30px;
+            height: 30px;
+            display: inline-grid;
+            place-items: center;
+        }
+
+        .side-card ol {
+            margin: 0;
+            padding-left: 22px;
+        }
+
+        .side-card li { margin-bottom: 5px; }
+        .side-card p { margin: 7px 0; }
+        .mobile-actions { display: none; }
+
+        .sidebar .logo {
+            width: 255px;
+            max-height: 300px;
+            object-fit: contain;
+            filter: drop-shadow(0 9px 12px #33000070);
+            position: relative;
+            z-index: 1;
+            margin-top: 5px
+        }
+
+        .mascote {
+            display: none;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(180deg, #fff1bc2e, #ffaf0020);
+            border: 1px solid #ffffff38;
+            width: 100%;
+            border-radius: 24px;
+            padding: 20px 16px;
+            margin-top: auto;
+            text-align: center
+        }
+
+        .mascote .pastel {
+            height: 110px;
+            width: 126px;
+            overflow: hidden;
+            margin: auto
+        }
+
+        .mascote .pastel img {
+            height: 132px;
+            width: 200px;
+            object-fit: cover;
+            object-position: center top;
+            max-width: none;
+            position: relative;
+            left: -38px;
+            top: -2px;
+            filter: drop-shadow(0 4px 8px #500a08)
+        }
+
+        .mascote strong {
+            display: block;
+            font-size: 19px;
+            margin-top: 5px
+        }
+
+        .mascote p {
+            font-size: 13px;
+            color: #ffeccf;
+            line-height: 1.6;
+            margin: 7px 0 0
+        }
+
+        .sidebar small {
+            position: relative;
+            z-index: 1;
+            color: #ffebbe;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 1.5;
+            font-size: 12px
+        }
+
+        .main {
+            flex: 1;
+            min-width: 0;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            background: #fffdfa
+        }
+
+        .header {
+            height: 118px;
+            flex: 0 0 auto;
+            position: relative;
+            padding: 17px 26px 10px;
+            text-align: center;
+            background: radial-gradient(ellipse at top, #fff 0%, #fff8e8 100%);
+            border-bottom: 4px solid #ffd12d
+        }
+
+        .header:before,
+        .header:after {
+            content: "";
+            position: absolute;
+            height: 9px;
+            background: var(--gold);
+            width: 33%;
+            top: 0
+        }
+
+        .header:before {
+            left: 0;
+            border-bottom-right-radius: 30px
+        }
+
+        .header:after {
+            right: 0;
+            border-bottom-left-radius: 30px
+        }
+
+        .header .pill {
+            display: inline-block;
+            background: linear-gradient(120deg, #d00f17, #940707);
+            color: #fff;
+            font-size: 32px;
+            font-style: italic;
+            font-weight: 850;
+            border-radius: 23px;
+            padding: 5px 47px;
+            box-shadow: 0 5px 0 #f5b927;
+            letter-spacing: .2px
+        }
+
+        .header .subtitle {
+            font-size: 15px;
+            color: #7a1b16;
+            font-weight: 700;
+            margin: 8px auto 0
+        }
+
+        .header .status {
+            font-size: 11px;
+            color: #8a6256;
+            margin-top: 3px
+        }
+
+        .chat {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
+            padding: 25px 28px;
+            background: linear-gradient(180deg, #fffdf9 0%, #fff 75%);
+            scroll-behavior: smooth
+        }
+
+        .chat::-webkit-scrollbar {
+            width: 10px
+        }
+
+        .chat::-webkit-scrollbar-thumb {
+            background: #ecd5b9;
+            border-radius: 20px;
+            border: 2px solid white
+        }
+
+        .welcome {
+            height: 100%;
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #9b796b;
+            text-align: center;
+            gap: 9px
+        }
+
+        .welcome .mark {
+            width: 126px;
+            height: 126px;
+            border: 3px solid #f7d27c;
+            border-radius: 23px;
+            display: grid;
+            place-items: center;
+            background: #fff8e3;
+            font-size: 35px;
+            font-weight: 900;
+            color: #b00d10;
+            transform: none;
+            border: 0;
+            background: transparent;
+        }
+
+        .welcome .mark img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 6px #5d26142a);
+        }
+
+        .welcome b {
+            font-size: 20px;
+            color: #923321
+        }
+
+        .welcome p {
+            max-width: 340px;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            margin: 0 0 14px;
+            align-items: flex-end;
+            animation: pop .16s ease-out
+        }
+
+        .message.user {
+            justify-content: flex-end
+        }
+
+        .bubble {
+            max-width: min(92%, 625px);
+            background: white;
+            border: 1px solid #eddbcc;
+            border-radius: 17px 17px 17px 3px;
+            padding: 12px 15px;
+            line-height: 1.52;
+            font-size: 15px;
+            box-shadow: 0 3px 10px #30180609;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere
+        }
+
+        .message.user .bubble {
+            background: #b90d19;
+            border-color: #ad0812;
+            color: #fff;
+            border-radius: 17px 17px 3px 17px;
+            max-width: min(85%, 570px)
+        }
+
+        .role {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            color: #a40b13;
+            letter-spacing: .45px;
+            text-transform: uppercase;
+            margin-bottom: 5px
+        }
+
+        .message.user .role {
+            color: #ffdd8f
+        }
+
+        .avatar img {
+            width: 26px;
+            height: 26px;
+            object-fit: contain;
+        }
+
+        .avatar {
+            flex: 0 0 auto;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #fff0c4;
+            color: #a00c16;
+            border: 1px solid #e9bb72;
+            display: grid;
+            place-items: center;
+            font-weight: 900
+        }
+
+        .order-summary {
+            margin: 10px 0 9px;
+            padding: 14px 17px;
+            background: linear-gradient(110deg, #fffaf0, #fff0b9);
+            border: 1px solid #f2ca71;
+            border-radius: 13px;
+            white-space: normal
+        }
+
+        .order-summary h3 {
+            font-size: 15px;
+            color: #95120e;
+            margin: 0 0 8px
+        }
+
+        .productline {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            align-items: baseline;
+            margin: 6px 0;
+            font-size: 14px
+        }
+
+        .productline .amount {
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+            font-weight: 650
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            border-top: 1px solid #e9c38a;
+            padding-top: 8px;
+            margin-top: 10px;
+            font-weight: 900;
+            color: #831216
+        }
+
+        .meta {
+            font-size: 13px;
+            margin-top: 9px;
+            line-height: 1.6
+        }
+
+        .payment-notice {
+            background: #fff2bd;
+            border-left: 5px solid #c20e18;
+            border-radius: 9px;
+            padding: 12px 14px;
+            font-weight: 700;
+            color: #651b10;
+            line-height: 1.5;
+        }
+
+        .fineprint {
+            font-size: 12px;
+            color: #704d3c;
+            line-height: 1.45;
+            margin-top: 8px
+        }
+
+        .pixbox {
+            border: 1px solid #d5ddb0;
+            background: linear-gradient(100deg, #fbfbe7, #e7f4d3);
+            border-radius: 15px;
+            margin: 10px 0 0;
+            padding: 13px;
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            flex-wrap: wrap;
+            white-space: normal
+        }
+
+        .pixbox .pixicon {
+            font-size: 30px;
+            color: #008c80;
+            font-weight: 900
+        }
+
+        .pixbox .pixdetails {
+            flex: 1;
+            min-width: 180px
+        }
+
+        .pixbox .pixdetails b {
+            display: block
+        }
+
+        .pixbox .pixdetails span {
+            display: block;
+            color: #5e614e;
+            font-size: 12px;
+            margin-top: 3px
+        }
+
+        .pixbox .pixdetails code {
+            display: block;
+            color: #15302b;
+            font-size: 13px;
+            margin-top: 3px;
+            overflow-wrap: anywhere
+        }
+
+        .copy {
+            border: 0;
+            border-radius: 999px;
+            background: #20832e;
+            color: white;
+            font-size: 13px;
+            font-weight: 750;
+            padding: 11px 15px;
+            cursor: pointer
+        }
+
+        .copy:hover {
+            background: #146722
+        }
+
+        .copy:active {
+            transform: translateY(1px)
+        }
+
+        .footer {
+            flex-shrink: 0;
+            padding: 12px 18px 16px;
+            background: #fffbf2;
+            border-top: 1px solid #f0dfce
+        }
+
+        .entry {
+            display: flex;
+            gap: 9px;
+            align-items: center
+        }
+
+        .entry input {
+            flex: 1;
+            min-width: 0;
+            padding: 15px 16px;
+            font-size: 15px;
+            border: 1px solid #d5b0a7;
+            box-shadow: 0 1px 2px #e4b7a63b;
+            border-radius: 13px;
+            outline: none;
+            background: #fff
+        }
+
+        .entry input:focus {
+            border-color: #b80d19;
+            box-shadow: 0 0 0 3px #f9d4d1
+        }
+
+        .send,
+        .new {
+            border: 0;
+            cursor: pointer;
+            border-radius: 13px;
+            font-size: 14px;
+            font-weight: 800;
+            padding: 15px 18px
+        }
+
+        .send {
+            background: linear-gradient(180deg, #e52522, #ac0710);
+            color: white
+        }
+
+        .new {
+            background: linear-gradient(180deg, #ffe25f, #ffbb10);
+            color: #4f2300
+        }
+
+        .send:hover {
+            filter: brightness(1.08)
+        }
+
+        .new:hover {
+            filter: brightness(1.02)
+        }
+
+        .helper {
+            text-align: center;
+            color: #866e61;
+            font-size: 11px;
+            margin-top: 9px
+        }
+
+        @keyframes pop {
+            from {
+                opacity: .4;
+                transform: translateY(5px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .modal-overlay[hidden] { display: none; }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(27, 24, 24, .59);
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            padding: 18px;
+        }
+        .modal-panel {
+            width: min(440px, 100%);
+            max-height: min(620px, calc(100dvh - 36px));
+            overflow-y: auto;
+            background: #fffefa;
+            border-radius: 19px;
+            box-shadow: 0 17px 55px #0006;
+            color: var(--ink);
+        }
+        .modal-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(120deg, #ffe26c, #ffca1c);
+            padding: 12px 16px;
+            color: #830c10;
+            font-size: 20px;
+        }
+        .modal-close {
+            border: 0;
+            background: transparent;
+            color: #830c10;
+            font-size: 28px;
+            padding: 0 4px;
+            cursor: pointer;
+        }
+        .modal-body {
+            padding: 19px 20px 23px;
+            line-height: 1.65;
+        }
+        .modal-body ol { padding-left: 24px; }
+        .modal-body li { margin-bottom: 8px; }
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            padding: 0 0 8px 40px;
+        }
+        .quick-replies button {
+            border: 1px solid #e5bf68;
+            border-radius: 999px;
+            background: #fff4cf;
+            padding: 7px 11px;
+            font-weight: 650;
+            color: #87130e;
+            cursor: pointer;
+        }
+        .quick-replies button:hover { background: #ffe190; }
+        .typing-dots {
+            font-size: 25px;
+            color: #b90c15;
+            letter-spacing: 4px;
+            animation: pulse-dots .8s infinite alternate;
+        }
+        @keyframes pulse-dots { from { opacity: .35; } to { opacity: 1; } }
+
+        @media(max-width:920px) {
+            .sidebar {
+                flex-basis: 220px;
+                padding: 18px
+            }
+
+            .sidebar .logo {
+                width: 200px
+            }
+
+            .mascote {
+                padding: 12px
+            }
+
+            .header {
+                height: 108px
+            }
+
+            .chat {
+                padding: 18px
+            }
+
+            .entry .new {
+                padding: 14px
+            }
+        }
+
+        @media(max-width:850px) {
+            body {
+                padding: 0
+            }
+
+            .app {
+                min-height: 0;
+                height: 100%;
+                border-radius: 0;
+                box-shadow: none;
+                border: none;
+                flex-direction: column
+            }
+
+            .sidebar {
+                flex: 0 0 auto;
+                min-height: 0;
+                height: 75px;
+                width: 100%;
+                flex-direction: row;
+                padding: 4px 14px;
+                justify-content: space-between
+            }
+
+            .sidebar .logo {
+                height: 73px;
+                width: 120px;
+                margin: 0
+            }
+
+            .sidebar-cards, .sidebar small {
+                display: none;
+            }
+            .mobile-actions {
+                display: flex;
+                gap: 10px;
+                position: relative;
+                z-index: 2;
+            }
+            .mobile-actions button {
+                width: 43px;
+                height: 43px;
+                border: 0;
+                border-radius: 50%;
+                background: linear-gradient(130deg, #ffe777, #ffc01c);
+                color: #870d0b;
+                font-size: 23px;
+                font-weight: 900;
+                box-shadow: 0 3px 0 #920d08;
+                cursor: pointer;
+            }
+
+            .header {
+                height: 93px;
+                padding: 11px 8px 7px
+            }
+
+            .header .pill {
+                font-size: 25px;
+                padding: 4px 37px
+            }
+
+            .header .subtitle {
+                font-size: 12px;
+                margin-top: 5px
+            }
+
+            .header .status {
+                font-size: 10px
+            }
+
+            .chat {
+                padding: 14px 10px
+            }
+
+            .bubble {
+                font-size: 14px;
+                padding: 11px
+            }
+
+            .entry {
+                flex-wrap: wrap;
+                gap: 7px
+            }
+
+            .entry input {
+                flex-basis: 100%;
+                padding: 13px
+            }
+
+            .send,
+            .new {
+                flex: 1;
+                padding: 11px 12px
+            }
+
+            .footer {
+                padding: 8px 9px calc(8px + env(safe-area-inset-bottom, 0px));
+            }
+
+            .helper {
+                font-size: 10px
+            }
+
+            .pixbox .copy {
+                width: 100%
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar"><img class="logo" alt="Logomarca oficial da Pastelaria Frittin" src="logo_frittin.png">
+            <div class="sidebar-cards" aria-label="Informações da Frittin">
+                <section class="side-card">
+                    <h3><span class="side-symbol">✓</span> Como pedir</h3>
+                    <ol>
+                        <li>Informe seu pedido.</li>
+                        <li>Ajuste os itens se precisar.</li>
+                        <li>Escolha retirada ou consumo no trailer.</li>
+                        <li>Aguarde a confirmação da equipe.</li>
+                    </ol>
+                </section>
+                <section class="side-card">
+                    <h3><span class="side-symbol">📍</span> Onde estamos</h3>
+                    <p><b>Praça da Boa Vizinhança</b><br>Cohaserma — São Luís/MA</p>
+                    <p>Retirada ou consumo no trailer.</p>
+                    <p><b>Não fazemos delivery.</b></p>
+                </section>
+            </div>
+            <div class="mobile-actions">
+                <button id="open-location" type="button" title="Localização" aria-label="Abrir localização">📍</button>
+                <button id="open-help" type="button" title="Ajuda" aria-label="Abrir ajuda">?</button>
+            </div>
+        </aside>
+        <main class="main">
+            <header class="header">
+                <div class="pill">Fritinho</div>
+                <div class="subtitle">Assistente virtual da Frittin Pastelaria</div>
+                <div class="status">Demonstração escolar • atendimento automatizado</div>
+            </header>
+            <section class="chat" id="chat" aria-live="polite">
+                <div class="welcome" id="welcome">
+                    <div class="mark"><img src="mascote_fritinho.png" alt="Mascote Fritinho"></div><b>Bem-vindo à Frittin!</b>
+                    <p>Escreva sua mensagem para começar. Você pode perguntar pelos sabores ou informar diretamente o
+                        que deseja.</p>
+                </div>
+            </section>
+            <form id="entry" class="footer">
+                <div class="entry"><input id="msg" maxlength="600" aria-label="Sua mensagem"
+                        placeholder="Digite sua mensagem..." autocomplete="off" autofocus><button class="send"
+                        type="submit">Enviar</button><button class="new" id="reset" type="button">Nova conversa</button>
+                </div>
+                <div class="helper">Protótipo para apresentação • Nenhum pedido ou pagamento é realizado automaticamente
+                </div>
+            </form>
+        </main>
+    </div>
+    <div id="modal-overlay" class="modal-overlay" hidden aria-hidden="true">
+        <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="modal-heading"><b id="modal-title">Ajuda</b><button type="button" class="modal-close" id="modal-close" aria-label="Fechar janela">×</button></div>
+            <div id="modal-body" class="modal-body"></div>
+        </section>
+    </div>
+    <script>
+        'use strict';
+        const PIX = 'pix-exemplo@frittin.invalid';
+        const catalog = [
+            { id: 'carne', name: 'Pastel de carne', price: 15, kind: 'pastel', aliases: ['carne'] },
+            { id: 'carne_queijo', name: 'Pastel de carne com queijo', price: 15, kind: 'pastel', aliases: ['carne com queijo', 'carne e queijo'] },
+            { id: 'frango_queijo', name: 'Pastel de frango com queijo', price: 15, kind: 'pastel', aliases: ['frango com queijo', 'frango e queijo', 'pastel de frango', 'frango'] },
+            { id: 'queijo', name: 'Pastel de queijo', price: 15, kind: 'pastel', aliases: ['queijo'] },
+            { id: 'pizza', name: 'Pastel de pizza', price: 15, kind: 'pastel', aliases: ['pizza'] },
+            { id: 'calabresa', name: 'Pastel de calabresa', price: 15, kind: 'pastel', aliases: ['calabresa'] },
+            { id: 'coca_lata', name: 'Coca-Cola lata', price: 7, kind: 'extra', aliases: ['coca cola lata', 'coca lata', 'coca-cola lata'] },
+            { id: 'coca_zero_lata', name: 'Coca-Cola Zero lata', price: 7, kind: 'extra', aliases: ['coca cola zero lata', 'coca zero lata', 'coca-cola zero lata'] },
+            { id: 'guarana_ant_lata', name: 'Guaraná Antarctica lata', price: 7, kind: 'extra', aliases: ['guarana antarctica lata'] },
+            { id: 'guarana_jesus_lata', name: 'Guaraná Jesus lata', price: 7, kind: 'extra', aliases: ['guarana jesus lata', 'jesus lata'] },
+            { id: 'coca_litro', name: 'Coca-Cola 1 litro', price: 12, kind: 'extra', aliases: ['coca cola 1 litro', 'coca 1 litro', 'coca de 1 litro'] },
+            { id: 'coca_zero_litro', name: 'Coca-Cola Zero 1 litro', price: 12, kind: 'extra', aliases: ['coca cola zero 1 litro', 'coca zero 1 litro'] },
+            { id: 'guarana_litro', name: 'Guaraná 1 litro', price: 12, kind: 'extra', aliases: ['guarana 1 litro', 'guarana de 1 litro'] },
+            { id: 'suco_maracuja', name: 'Suco de maracujá 300 ml', price: 7, kind: 'extra', aliases: ['suco de maracuja 300 ml', 'suco de maracuja', 'suco maracuja'] },
+            { id: 'agua', name: 'Água mineral 500 ml', price: 3, kind: 'extra', aliases: ['agua mineral 500 ml', 'agua mineral', 'agua 500 ml'] },
+            { id: 'h2o', name: 'H2O 500 ml', price: 8, kind: 'extra', aliases: ['h2o 500 ml', 'h2o'] },
+            { id: 'limoneto', name: 'Limoneto 500 ml', price: 8, kind: 'extra', aliases: ['limoneto 500 ml', 'limoneto'] },
+            { id: 'batata', name: 'Batata frita simples 100 g', price: 10, kind: 'extra', aliases: ['batata frita simples', 'batata frita'] },
+            { id: 'batata_cheddar', name: 'Batata com cheddar e bacon 100 g', price: 15, kind: 'extra', aliases: ['batata com cheddar e bacon', 'batata cheddar e bacon'] },
+            { id: 'mini_coxinhas', name: 'Pote com 50 mini coxinhas', price: 15, kind: 'extra', aliases: ['50 mini coxinhas', 'pote de mini coxinhas', 'mini coxinhas'] },
+            { id: 'coxinha', name: 'Coxinha 100 g', price: 13, kind: 'extra', aliases: ['coxinha 100 g', 'coxinha'] },
+            { id: 'brigadeiro', name: 'Brigadeiro', price: 6, kind: 'extra', aliases: ['brigadeiro'] },
+            { id: 'palha_chocolate', name: 'Palha italiana de chocolate', price: 6, kind: 'extra', aliases: ['palha italiana de chocolate'] },
+            { id: 'palha_ninho', name: 'Palha italiana de leite Ninho', price: 6, kind: 'extra', aliases: ['palha italiana de leite ninho'] },
+            { id: 'brownie', name: 'Brownie', price: 8, kind: 'extra', aliases: ['brownie'] },
+            { id: 'geleia', name: 'Geleia', price: 2, kind: 'extra', aliases: ['geleia'] },
+            { id: 'sanduiche', name: 'Sanduíche', price: 15, kind: 'extra', aliases: ['sanduiche'] },
+            { id: 'hamburguer', name: 'Hambúrguer de carne desfiada', price: 18, kind: 'extra', aliases: ['hamburguer de carne desfiada'] },
+        ];
+        const money = n => 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const norm = s => s.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[-–]/g, ' ').replace(/\s+/g, ' ').trim();
+        const chat = document.getElementById('chat'), welcome = document.getElementById('welcome'), field = document.getElementById('msg');
+        const numberWords = { um: 1, uma: 1, dois: 2, duas: 2, tres: 3, quatro: 4, cinco: 5, seis: 6, sete: 7, oito: 8, nove: 9, dez: 10 };
+        let session = {
+            cliente: '',
+            pedidoPendente: '',
+            state: 'inicio', items: [], selection: null, mode: '', fry: '', payment: '', introduced: false
+        };
+        function removeWelcome() {
+            const w = document.getElementById('welcome');
+            if (w)
+                w.remove()
+        }
+        function escapeHTML(t) {
+            return String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
+        }
+        function render(author, body, html = false) {
+            const usuarioEnviando = author === 'Você';
+            const acompanhar = usuarioEnviando ||
+                chat.scrollHeight - chat.clientHeight - chat.scrollTop < 110;
+            removeWelcome();
+            const el = document.createElement('div');
+            el.className = 'message ' + (author === 'Você' ? 'user' : 'assistant');
+            if (author !== 'Você') {
+                const a = document.createElement('div');
+                a.className = 'avatar';
+                const avatar = document.createElement('img');
+                avatar.src = 'mascote_fritinho.png';
+                avatar.alt = 'Fritinho';
+                a.append(avatar);
+                el.append(a)
+            }
+            const b = document.createElement('div');
+            b.className = 'bubble';
+            const role = document.createElement('span');
+            role.className = 'role';
+            role.textContent = author;
+            b.append(role);
+            const content = document.createElement('div');
+            if (html)
+                content.innerHTML = body;
+            else
+                content.textContent = body;
+            b.append(content);
+            el.append(b);
+            chat.append(el);
+            if (acompanhar) chat.scrollTop = chat.scrollHeight;
+            return el
+        }
+        function say(t) {
+            render('Fritinho', t)
+        }
+        function greet(t) {
+            const s = norm(t);
+            return s.includes('bom dia') ? 'Bom dia!' : s.includes('boa tarde') ? 'Boa tarde!' : s.includes('boa noite') ? 'Boa noite!' : 'Olá!'
+        }
+        function introductory(t) {
+            if (session.introduced)
+                return '';
+            session.introduced = true;
+            return greet(t) + ' Sou o Fritinho, assistente virtual da Frittin.\n\n'
+        }
+        function cardapio(t) {
+            return introductory(t) + 'Nosso cardápio — R$ 15,00 por pastel\n\nCarne\nCarne com queijo\nFrango com queijo\nQueijo\nPizza\nCalabresa\n\nSequinhos, crocantes e feitos com carinho! Assim são os pastéis da Frittin!\n\nEscolheu seu sabor? Digite PEDIDO para continuar.'
+        }
+
+        function hasOrderIntent(t) {
+            const s = norm(t);
+
+            const pedidoExplicito =
+                /\b(quero|queria|gostaria|pedir|pedido|vou querer|manda|me ve|separa|reservar|comprar|preciso de|eu quero|para mim)\b/.test(s);
+
+            const quantidadeInicial =
+                /^(?:\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\b/.test(s);
+
+            return pedidoExplicito ||
+                (quantidadeInicial && parsedItems(t).length > 0);
+        }
+
+
+        function parsedItems(t) {
+
+            const s = norm(t);
+            const candidates = [];
+            for (const p of catalog) {
+                for (const alias of p.aliases) {
+                    const a = norm(alias);
+                    const re = new RegExp('(?<![a-z0-9])' + a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+') + '(?![a-z0-9])', 'g');
+                    let m;
+                    while ((m = re.exec(s)) !== null) {
+                        candidates.push({ p, start: m.index, end: m.index + m[0].length, length: m[0].length });
+                        if (m.index === re.lastIndex)
+                            re.lastIndex++
+                    }
+                }
+            }
+
+            candidates.sort((a, b) => b.length - a.length || a.start - b.start);
+            const chosen = [];
+            for (const c of candidates) {
+                if (chosen.some(x => c.start < x.end && x.start < c.end))
+                    continue;
+                chosen.push(c)
+            }
+            chosen.sort((a, b) => a.start - b.start);
+            const items = [];
+            for (let j = 0; j < chosen.length; j++) {
+                const c = chosen[j], previous = j ? chosen[j - 1].end : 0;
+                const before = s.slice(Math.max(previous, c.start - 45), c.start);
+                const m = before.match(/(?:^|\b(?:e|mais|quero|pedir|de|com|um|uma)\b|[,;])\s*(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\s*(?:pasteis?\s*)?(?:de\s*)?$/);
+                let qty = m ? (numberWords[m[1]] || Number(m[1])) : 1;
+                if (qty < 1 || qty > 30)
+                    return [];
+                items.push({ id: c.p.id, qty })
+            }
+            const merged = [];
+            for (const it of items) {
+                const old = merged.find(x => x.id === it.id);
+                if (old)
+                    old.qty += it.qty;
+                else
+                    merged.push(it)
+            }
+            return merged
+
+        }
+        function getItem(it) {
+            return catalog.find(p => p.id === it.id)
+        }
+
+        function subtotal(items) {
+            return items.reduce((t, it) => t + getItem(it).price * it.qty, 0)
+        }
+
+        function summaryHTML(full = false) {
+            const rows = session.items.map(it => {
+                const p = getItem(it);
+                return '<div class="productline"><span>' + it.qty + '× ' + escapeHTML(p.name) +
+                    '</span><span class="amount">' + money(it.qty * p.price) + '</span></div>';
+            }).join('');
+            const cliente = session.cliente
+                ? '<div class="meta"><b>Cliente:</b> ' + escapeHTML(session.cliente) + '</div>'
+                : '';
+            const situacao = full
+                ? '<div class="meta"><b>Modalidade:</b> ' + escapeHTML(session.mode || 'A definir') +
+                  '<br><b>Pagamento:</b> ' + escapeHTML(session.payment || 'A definir') +
+                  '<br><b>Situação:</b> Não pago — aguardando confirmação da equipe</div>' +
+                  '<div class="fineprint">A solicitação ainda depende da confirmação da equipe da Frittin, ' +
+                  'que verificará a disponibilidade e autorizará o preparo.</div>'
+                : '';
+            return '<div class="order-summary"><h3>' +
+                (full ? 'RESUMO DA SOLICITAÇÃO' : 'SUA SOLICITAÇÃO') + '</h3>' +
+                cliente + rows +
+                '<div class="total-row"><span>Total estimado</span><span>' +
+                money(subtotal(session.items)) + '</span></div>' + situacao + '</div>';
+        }
+
+        function askMode() {
+            session.state = 'tipo';
+            say('É para retirada ou para consumir no trailer?')
+        }
+
+        function showDirect(t) {
+            session.items = parsedItems(t);
+            const intro = introductory(t);
+            render('Fritinho', escapeHTML(intro + 'Vou organizar sua solicitação para conferência. A equipe verificará a disponibilidade dos produtos.') + summaryHTML(false) + 'Está tudo certinho? É para retirada ou para consumir no trailer?', true);
+            session.state = 'confirmar'
+        }
+
+        function showPix() {
+            const p = document.createElement('div');
+            p.className = 'pixbox';
+            p.innerHTML = '<div class="pixicon">◆</div><div class="pixdetails"><b>Pagamento via Pix</b><span>Chave fictícia de demonstração — não realize transferência</span><code>' + PIX + '</code></div>';
+            const btn = document.createElement('button');
+            btn.className = 'copy';
+            btn.type = 'button';
+            btn.textContent = 'Copiar chave Pix';
+            p.append(btn);
+            const msg = render('Fritinho', '');
+            msg.querySelector('.bubble>div').append(p)
+        }
+        function complete(payment) {
+            session.payment = payment;
+            session.state = 'concluido';
+            const mensagens = {
+                'Dinheiro': 'Perfeito! 💛 O pagamento em dinheiro poderá ser realizado diretamente com nossa equipe no trailer. Sua solicitação continuará aguardando confirmação.',
+                'Débito — presencial': 'Combinado! 💛 Você poderá realizar o pagamento no débito diretamente com nosso atendente, no trailer.',
+                'Crédito — presencial': 'Perfeito! 💛 O pagamento no crédito será realizado presencialmente com nossa equipe. As condições poderão ser confirmadas com o atendente.'
+            };
+            if (payment === 'Pix') showPix();
+            const abertura = mensagens[payment] ||
+                'Perfeito! A forma de pagamento escolhida foi Pix. Não efetue transferência por esta demonstração.';
+            render('Fritinho', '<p class="payment-notice">' + escapeHTML(abertura) + '</p>' +
+                summaryHTML(true) +
+                '<p>Agradecemos o contato! Nossa equipe precisará confirmar sua solicitação.</p>', true);
+        }
+
+        function yes(t) {
+            const s = norm(t).replace(/[,!?\.]/g, ' ').replace(/\s+/g, ' ').trim();
+            return /^(sim|s|pode|certo|isso|esta certo|ta certo|ok|pode fritar|sim pode fritar|pode sim|confirmo|confirmado)$/.test(s);
+        }
+
+        function no(t) {
+            const s = norm(t).replace(/[,!?\.]/g, ' ').replace(/\s+/g, ' ').trim();
+            return /^(nao|n|ainda nao|nao pode|nao pode fritar|agora nao|espera|aguarde|prefiro esperar)$/.test(s);
+        }
+
+        function identificarIntencao(t) {
+            const s = norm(t);
+
+            const remover = /\b(tira|tire|tirar|retira|retire|remove|remova|exclui|exclua)\b/.test(s);
+
+            const adicionar = /\b(adiciona|adicione|adicionar|acrescenta|acrescente|acrescentar|coloca|coloque|colocar|inclui|inclua)\b/.test(s);
+
+            if (remover && adicionar) {
+                return 'retirar_e_adicionar';
+            }
+
+            if (remover) {
+                return 'retirar_produto';
+            }
+
+            if (adicionar) {
+                return 'adicionar_produto';
+            }
+
+            if (/\b(corrigir|corrige|corrija)\b/.test(s)) {
+                return 'corrigir_pedido';
+            }
+
+            if (/\b(retirada|buscar|pegar|levar|viagem|consumir|trailer|comer aqui|no local)\b/.test(s)) {
+                return 'modalidade';
+            }
+
+            return 'outra';
+        }
+
+
+
+        function processarTrocaProdutos(t) {
+            const s = norm(t);
+            const partes = s.match(
+                /\b(?:tira|tire|tirar|retira|retire|retirar|remove|remova|exclui|exclua)\s+(.+?)\s+e\s+(?:coloca|coloque|colocar|adiciona|adicione|adicionar|acrescenta|acrescente|acrescentar|inclui|inclua|incluir)\s+(.+)/
+            );
+            if (!partes) return false;
+            const retirar = parsedItems(partes[1]);
+            const acrescentar = parsedItems(partes[2]);
+            if (retirar.length !== 1 || !acrescentar.length) {
+                say('Entendi a troca. Pode me dizer os produtos e quantidades que deseja retirar e acrescentar?');
+                return true;
+            }
+            const atual = session.items.find(item => item.id === retirar[0].id);
+            if (!atual) {
+                say('Não encontrei esse produto na sua solicitação. Pode conferir para mim?');
+                return true;
+            }
+            const quantidadeInformada = /\b(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\b/.test(partes[1]);
+            const todos = /\b(todos|todas)\b/.test(partes[1]);
+            const quantidade = todos ? atual.qty : quantidadeInformada ? retirar[0].qty : (atual.qty === 1 ? 1 : null);
+            if (!Number.isInteger(quantidade) || quantidade < 1 || quantidade > atual.qty) {
+                say('Você tem ' + atual.qty + ' unidades de ' + getItem(atual).name +
+                    '. Quantas deseja retirar? Pode enviar as duas alterações novamente?');
+                return true;
+            }
+            const nomeRetirado = getItem(atual).name;
+            // Só modifica após validar todos os dados.
+            atual.qty -= quantidade;
+            if (atual.qty === 0) session.items = session.items.filter(item => item.id !== atual.id);
+            for (const novo of acrescentar) {
+                const existente = session.items.find(item => item.id === novo.id);
+                if (existente) existente.qty += novo.qty;
+                else session.items.push({ id: novo.id, qty: novo.qty });
+            }
+            const nomes = acrescentar.map(novo => novo.qty + '× ' + getItem(novo).name).join(', ');
+            mostrarPedidoAtualizado('Retirei ' + quantidade + (quantidade === 1 ? ' unidade' : ' unidades') +
+                ' de ' + nomeRetirado + ' e acrescentei ' + nomes + '.');
+            return true;
+        }
+
+        function processarAdicaoProdutos(t) {
+            const novos = parsedItems(t);
+            if (!novos.length) {
+                say('Claro! Qual produto e quantidade você gostaria de acrescentar?');
+                return true;
+            }
+            for (const novo of novos) {
+                const anterior = session.items.find(item => item.id === novo.id);
+                if (anterior) anterior.qty += novo.qty;
+                else session.items.push({ id: novo.id, qty: novo.qty });
+            }
+            mostrarPedidoAtualizado('Acrescentei ' + novos.map(it =>
+                it.qty + '× ' + getItem(it).name).join(', ') + ' à sua solicitação.');
+            return true;
+        }
+
+        // Mensagens e alterações de produtos ficam independentes da etapa do atendimento.
+        function continuacaoAtendimento() {
+            if (!session.items.length) return '<p>Seu pedido está vazio. O que deseja pedir agora?</p>';
+            if (session.state === 'confirmar' || session.state === 'tipo')
+                return '<p>Você prefere retirada ou consumir no trailer?</p>';
+            if (session.state === 'fritar')
+                return '<p>Já podemos fritar seus pastéis? A equipe ainda precisará confirmar o preparo.</p>';
+            if (session.state === 'pagamento')
+                return '<p>Você prefere Pix, dinheiro, débito ou crédito?</p>';
+            if (session.state === 'concluido')
+                return '<p>Seu pedido atualizado continua aguardando confirmação da equipe.</p>';
+            return '';
+        }
+
+        function mostrarPedidoAtualizado(mensagem) {
+            const vazio = !session.items.length;
+            if (vazio) {
+                session.state = 'inicio';
+                session.mode = '';
+                session.fry = '';
+                session.payment = '';
+            }
+            render('Fritinho', '<p>' + escapeHTML('Prontinho! ' + mensagem) + '</p>' +
+                (vazio ? '' : summaryHTML(Boolean(session.mode && session.payment))) +
+                continuacaoAtendimento(), true);
+            if (!vazio && session.payment === 'Pix') showPix();
+        }
+
+        function processarRemocaoProdutos(t) {
+            const s = norm(t);
+            const retirar = parsedItems(t);
+            if (retirar.length !== 1) {
+                say('Qual produto da sua solicitação deseja retirar? Pode me dizer o sabor e a quantidade?');
+                return true;
+            }
+            const atual = session.items.find(item => item.id === retirar[0].id);
+            if (!atual) {
+                say('Não encontrei esse produto na sua solicitação. Pode conferir o nome para mim?');
+                return true;
+            }
+            const todos = /\b(todos|todas)\b/.test(s);
+            // Quantidade antes do produto, não números de tamanhos (ex.: 300 ml).
+            const itemNome = getItem(atual);
+            const alias = itemNome.aliases.find(a => s.includes(norm(a))) || itemNome.name;
+            const idx = s.indexOf(norm(alias));
+            const trechoAnterior = idx >= 0 ? s.slice(Math.max(0,idx-42),idx) : s;
+            const numero = trechoAnterior.match(/\b(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\s*(?:pasteis?\s*)?(?:de\s*)?$/);
+            const quantidade = todos ? atual.qty : numero ? (numberWords[numero[1]] || Number(numero[1])) : atual.qty === 1 ? 1 : null;
+            if (quantidade === null) {
+                session.retiradaPendenteId = atual.id;
+                say('Você tem ' + atual.qty + ' unidades de ' + itemNome.name + '. Quer retirar uma ou todas?');
+                return true;
+            }
+            if (!Number.isInteger(quantidade) || quantidade < 1 || quantidade > atual.qty) {
+                say('Você tem ' + atual.qty + ' unidades de ' + itemNome.name + '. Quantas deseja retirar?');
+                return true;
+            }
+            atual.qty -= quantidade;
+            if (!atual.qty) session.items = session.items.filter(item => item.id !== atual.id);
+            mostrarPedidoAtualizado('Retirei ' + quantidade + (quantidade === 1 ? ' unidade' : ' unidades') + ' de ' + itemNome.name + '.');
+            return true;
+        }
+
+        function responderBebidas(t) {
+            const s = norm(t);
+            if (/\b(bebidas|refrigerantes|quais sucos|que sucos|o que tem pra beber|o que voces tem pra beber)\b/.test(s)) {
+                const itens = catalog.filter(p => p.kind === 'extra' &&
+                    /coca|guarana|suco|agua|h2o|limoneto/i.test(p.id));
+                say('Temos estas bebidas (valores de demonstração):\n' +
+                    itens.map(p => '• ' + p.name + ' — ' + money(p.price)).join('\n') +
+                    '\n\nQuer acrescentar alguma à sua solicitação?');
+                return true;
+            }
+            if (/\b(fanta(?: de)? uva|sprite|suco de acerola|suco acerola)\b/.test(s)) {
+                say('Infelizmente, esse sabor não está no nosso cardápio. 💛 Temos suco de maracujá, Coca-Cola, Guaraná e outras opções. Quer conhecer as bebidas?');
+                return true;
+            }
+            return false;
+        }
+
+        function respond(t) {
+
+            const s = norm(t);
+
+            const intencao = identificarIntencao(t);
+
+            if (['reiniciar', 'nova conversa', 'cancelar atendimento'].includes(s)) {
+                reset();
+                return
+            }
+
+
+            if (session.state === 'inicio' && !session.cliente) {
+                const itens = parsedItems(t);
+
+                if (itens.length > 0 && hasOrderIntent(t)) {
+                    session.pedidoPendente = t;
+                }
+
+                session.state = 'aguardando_nome';
+
+                if (session.pedidoPendente) {
+                    say(
+                        introductory(t) +
+                        'Já identifiquei seu pedido! 💛 ' +
+                        'Antes de continuarmos, como posso chamar você ' +
+                        'para identificar sua solicitação?'
+                    );
+                } else {
+                    say(
+                        introductory(t) +
+                        'Como posso chamar você? 💛'
+                    );
+                }
+
+                return;
+            }
+
+
+            if (session.state === 'aguardando_nome') {
+                const nome = t.trim()
+                    .replace(
+                        /^(?:meu nome (?:é|e)|me chamo|me chama de|pode me chamar de|eu sou|sou)\s+/i,
+                        ''
+                    )
+                    .replace(/[.!?]+$/, '')
+                    .replace(/^(?:a|o)\s+/i, '')
+                    .trim();
+
+                const nomeValido =
+                    /^[A-Za-zÀ-ÿ]+(?:[ '-][A-Za-zÀ-ÿ]+)*$/.test(nome) &&
+                    nome.length <= 60 &&
+                    nome.split(/\s+/).length <= 5 &&
+                    !hasOrderIntent(t) &&
+                    parsedItems(t).length === 0 &&
+                    !/^(oi|ola|bom dia|boa tarde|boa noite|sim|nao|retirada|pix|dinheiro|debito|credito)$/.test(norm(nome));
+
+                if (!nomeValido) {
+                    say(
+                        'Desculpe, não consegui identificar seu nome. 💛 ' +
+                        'Como posso chamar você?'
+                    );
+                    return;
+                }
+
+                session.cliente = nome;
+
+                const pedido = session.pedidoPendente;
+                session.pedidoPendente = '';
+                session.state = 'inicio';
+
+                say('Muito prazer, ' + session.cliente + '! 💛');
+
+                if (pedido) {
+                    showDirect(pedido);
+                } else {
+                    say(
+                        'Como posso ajudar? Você pode conhecer ' +
+                        'nosso cardápio ou me contar o que deseja pedir.'
+                    );
+                }
+
+                return;
+            }
+
+
+            if (session.retiradaPendenteId != null) {
+                const item = session.items.find(
+                    x => x.id === session.retiradaPendenteId
+                );
+
+                if (!item) {
+                    session.retiradaPendenteId = null;
+                    say('Não encontrei mais esse produto na solicitação.');
+                    return;
+                }
+
+                if (/^(nao|deixa|desisti|esquece)\b/.test(s)) {
+                    session.retiradaPendenteId = null;
+
+                    render(
+                        'Fritinho',
+                        '<p>Tudo bem! Mantive sua solicitação como estava. 💛</p>' +
+                        summaryHTML(true),
+                        true
+                    );
+
+                    return;
+                }
+
+                const todos = /\b(todos|todas)\b/.test(s);
+                const numero = s.match(
+                    /\b(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\b/
+                );
+
+                const quantidade = todos
+                    ? item.qty
+                    : numero
+                        ? (numberWords[numero[1]] || Number(numero[1]))
+                        : null;
+
+                if (!Number.isInteger(quantidade) ||
+                    quantidade < 1 || quantidade > item.qty) {
+                    say('Pode me confirmar quantas unidades deseja retirar?');
+                    return;
+                }
+
+                const nome = getItem(item).name;
+
+                item.qty -= quantidade;
+
+                if (item.qty === 0) {
+                    session.items = session.items.filter(
+                        x => x.id !== item.id
+                    );
+                }
+
+                session.retiradaPendenteId = null;
+
+                render(
+                    'Fritinho',
+                    '<p>Prontinho! Retirei ' + quantidade +
+                    (quantidade === 1 ? ' unidade' : ' unidades') +
+                    ' de ' + escapeHTML(nome) +
+                    ' da sua solicitação.</p>' +
+                    summaryHTML(true),
+                    true
+                );
+
+                if (session.payment === 'Pix') {
+                    showPix();
+                }
+
+                return;
+            }
+
+
+            // Produto e modalidade são operações independentes. As alterações vêm primeiro.
+            // Evita que "adiciona suco" seja interpretado como resposta à pergunta de modalidade.
+            if (session.items.length && intencao === 'retirar_produto') {
+                processarRemocaoProdutos(t);
+                return;
+            }
+            if (session.items.length &&
+                (intencao === 'adicionar_produto' ||
+                    (hasOrderIntent(t) && parsedItems(t).length > 0))) {
+                // Uma mensagem pode incluir bebida e produto, sem palavra "CORRIGIR".
+                if (responderBebidas(t)) return;
+                processarAdicaoProdutos(t);
+                return;
+            }
+
+            if (session.items.length > 0 &&
+                intencao === 'retirar_e_adicionar') {
+
+                if (!processarTrocaProdutos(t)) {
+                    say('Entendi que você deseja retirar e acrescentar produtos. Pode me informar quais são e as quantidades, por favor?');
+                }
+
+                return;
+            }
+
+
+
+            if (session.state === 'confirmar') {
+                const pedidoCorrecao = /\b(corrigir|corrige|corrija|mudar|alterar|trocar)\b/.test(s);
+                if (pedidoCorrecao && /\b(retirada|retirar no local|buscar|pegar|levar|viagem|consumir|trailer|comer aqui|no local)\b/.test(s)) {
+                    session.mode = /\b(consumir|trailer|comer aqui|no local)\b/.test(s)
+                        ? 'Consumir no trailer' : 'Retirada';
+                    session.state = 'fritar';
+                    say('Entendi: ' + session.mode + '. 💛 O que deseja retirar ou acrescentar ao pedido? Pode me dizer normalmente, sem repetir tudo.');
+                    return;
+                }
+                if (/(retir|buscar|pegar|levar|viagem)/.test(s)) {
+                    session.mode = 'Retirada';
+                    session.state = 'fritar';
+                    say('Perfeito, será para retirada. Já podemos fritar seus pastéis? A equipe ainda precisará confirmar o preparo.')
+                }
+                else if (/(consum|trailer|comer aqui|no local)/.test(s)) {
+                    session.mode = 'Consumir no trailer';
+                    session.state = 'fritar';
+                    say('Perfeito, será para consumir no trailer. Já podemos fritar seus pastéis? A equipe ainda precisará confirmar o preparo.')
+                }
+                else if (no(s) || /\b(corrigir|mudar|trocar|errado)\b/.test(s)) {
+                    session.state = 'corrigir';
+                    say('Claro! Me envie o pedido completo com as quantidades corrigidas, por favor.')
+                }
+                else if (yes(s)) {
+                    askMode()
+                }
+                else {
+                    say('Só para eu confirmar direitinho: prefere retirada ou consumir no trailer? Se quiser alterar produtos, diga o que deseja tirar ou acrescentar.')
+                }
+                ;
+                return
+            }
+
+            if (session.state === 'corrigir') {
+                if (parsedItems(t).length && hasOrderIntent(t)) {
+                    showDirect(t)
+                }
+                else {
+                    say('Pode me enviar os sabores e as quantidades desejados? Por exemplo: 1 pastel de pizza e 2 de carne com queijo.')
+                }
+                return
+            }
+
+            if (session.state === 'tipo') {
+                if (/\b(retir|buscar|pegar|levar|viagem)/.test(s)) {
+                    session.mode = 'Retirada'
+                }
+                else if (/(consum|trailer|comer aqui|no local)/.test(s)) {
+                    session.mode = 'Consumir no trailer'
+                }
+                else {
+                    say('Desculpe, acho que não entendi direitinho. Você prefere retirar seu pedido ou consumir aqui no nosso trailer?');
+                    return
+                }
+                session.state = 'fritar';
+                say('Combinado! Já podemos fritar seus pastéis? A equipe ainda precisará confirmar o preparo.');
+                return
+            }
+
+            if (session.state === 'fritar') {
+                if (no(s)) {
+                    session.fry = 'Ainda não'
+                }
+                else if (yes(s)) {
+                    session.fry = 'Sim, sujeito à confirmação da equipe'
+                }
+                else {
+                    say('Só para confirmar: já podemos fritar ou prefere aguardar um pouco?');
+                    return
+                }
+                session.state = 'pagamento';
+                say('Perfeito! Qual será a forma de pagamento? Pix, dinheiro, débito ou crédito?');
+                return
+            }
+
+            if (session.state === 'pagamento') {
+                if (s.includes('boleto') || s.includes('vale alimentacao') || s.includes('vale refeicao')) {
+                    say('No momento não aceitamos essa modalidade. Você prefere Pix, dinheiro, débito ou crédito?');
+                    return
+                }
+                if (s.includes('pix'))
+                    complete('Pix');
+                else if (s.includes('dinheiro') || s.includes('especie'))
+                    complete('Dinheiro');
+                else if (s.includes('debito') || s.includes('cartao de debito'))
+                    complete('Débito — presencial');
+                else if (s.includes('credito') || s.includes('cartao'))
+                    complete('Crédito — presencial');
+                else
+                    say('Você prefere pagar por Pix, dinheiro, débito ou crédito?');
+                return
+            }
+
+
+            if (session.state === 'concluido') {
+
+                // Retirada e acréscimo na mesma mensagem.
+                const operacoesJuntas = s.match(
+                    /\b(?:tira|tire|retira|retire|remove|remova|exclui|exclua)\b\s+(.+?)\s+e\s+(?:coloca|coloque|adiciona|adicione|acrescenta|acrescente|inclui|inclua)\b\s+(.+)/
+                );
+
+                if (operacoesJuntas) {
+                    const retirar = parsedItems(operacoesJuntas[1]);
+                    const acrescentar = parsedItems(operacoesJuntas[2]);
+
+                    if (retirar.length !== 1 || acrescentar.length !== 1) {
+                        say('Claro! Para evitar erros, me diga um produto para retirar e outro para acrescentar, com as quantidades.');
+                        return;
+                    }
+
+                    const atual = session.items.find(x => x.id === retirar[0].id);
+
+                    if (!atual) {
+                        say('Não encontrei esse produto na sua solicitação. Pode conferir para mim?');
+                        return;
+                    }
+
+                    const trechoRetirada = operacoesJuntas[1];
+                    const tudo = /\b(todos|todas)\b/.test(trechoRetirada);
+                    const numero = trechoRetirada.match(
+                        /^(?:(?:o|a|os|as|so|apenas|mais)\s+)*(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\b/
+                    );
+
+                    const quantidade = tudo ? atual.qty : numero
+                        ? (numberWords[numero[1]] || Number(numero[1]))
+                        : (atual.qty === 1 ? 1 : null);
+
+                    if (!Number.isInteger(quantidade) || quantidade < 1 || quantidade > atual.qty) {
+                        say('Você tem ' + atual.qty + ' unidades de ' + getItem(atual).name + '. Quantas deseja retirar? Pode me enviar novamente as duas alterações, por favor?');
+                        return;
+                    }
+
+                    const nomeRetirado = getItem(atual).name;
+                    const novo = acrescentar[0];
+                    const nomeAcrescentado = getItem(novo).name;
+
+                    atual.qty -= quantidade;
+
+                    if (atual.qty === 0) {
+                        session.items = session.items.filter(x => x.id !== atual.id);
+                    }
+
+                    const existente = session.items.find(x => x.id === novo.id);
+
+                    if (existente) {
+                        existente.qty += novo.qty;
+                    } else {
+                        session.items.push({ id: novo.id, qty: novo.qty });
+                    }
+
+                    render(
+                        'Fritinho',
+                        '<p>Prontinho! Retirei ' + quantidade +
+                        (quantidade === 1 ? ' unidade' : ' unidades') +
+                        ' de ' + escapeHTML(nomeRetirado) +
+                        ' e acrescentei ' + novo.qty +
+                        (novo.qty === 1 ? ' unidade' : ' unidades') +
+                        ' de ' + escapeHTML(nomeAcrescentado) + '.</p>' +
+                        summaryHTML(true),
+                        true
+                    );
+
+                    if (session.payment === 'Pix') {
+                        showPix();
+                    }
+
+                    return;
+                }
+
+
+
+                if (/\b(tira|retira|remove|exclui)\b/.test(s)) {
+                    const encontrados = parsedItems(t);
+
+                    if (/\b(adiciona|acrescenta|coloca|inclui|troca|substitui)\b/.test(s) || encontrados.length !== 1) {
+                        say('Claro! Para evitar qualquer erro, qual produto você gostaria de retirar primeiro?');
+                        return;
+                    }
+
+                    const pedido = encontrados[0];
+                    const item = session.items.find(x => x.id === pedido.id);
+
+                    if (!item) {
+                        say('Não encontrei esse produto na sua solicitação. Pode conferir para mim?');
+                        return;
+                    }
+
+                    const numero = s.match(/\b(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\b/);
+                    const todos = /\b(todos|todas)\b/.test(s);
+
+                    if (item.qty > 1 && !numero && !todos) {
+                        say('Você tem ' + item.qty + ' unidades de ' +
+                            getItem(item).name +
+                            '. Gostaria de retirar apenas uma ou todas?');
+
+                        session.retiradaPendenteId = item.id;
+
+                        return;
+                    }
+
+                    const quantidade = todos
+                        ? item.qty
+                        : numero
+                            ? (numberWords[numero[1]] || Number(numero[1]))
+                            : 1;
+
+                    if (quantidade < 1 || quantidade > item.qty) {
+                        say('Você tem ' + item.qty +
+                            ' unidades desse produto. Pode confirmar quantas deseja retirar?');
+                        return;
+                    }
+
+                    item.qty -= quantidade;
+
+                    if (item.qty === 0) {
+                        session.items = session.items.filter(x => x.id !== item.id);
+                    }
+
+                    render(
+                        'Fritinho',
+                        '<p>Claro! Retirei ' + quantidade +
+                        ' unidade(s) de ' + escapeHTML(getItem(item).name) +
+                        ' da sua solicitação.</p>' +
+                        summaryHTML(true),
+                        true
+                    );
+
+                    return;
+                }
+
+
+                const adicionar =
+                    /\b(adiciona|adicionar|acrescenta|acrescentar|inclui|incluir|coloca|colocar|mais|tambem)\b/.test(s) ||
+                    (hasOrderIntent(t) && parsedItems(t).length > 0);
+
+
+                if (adicionar) {
+                    const novos = parsedItems(t);
+
+                    if (!novos.length) {
+                        say('Claro! Qual produto e quantidade você gostaria de acrescentar?');
+                        return;
+                    }
+
+                    for (const item of novos) {
+                        const anterior = session.items.find(x => x.id === item.id);
+
+                        if (anterior) {
+                            anterior.qty += item.qty;
+                        } else {
+                            session.items.push(item);
+                        }
+                    }
+
+                    render(
+                        'Fritinho',
+                        '<p>Claro! Atualizei sua solicitação:</p>' +
+                        summaryHTML(true) +
+                        '<p>Se desejar acrescentar mais alguma coisa, é só me avisar.</p>',
+                        true
+                    );
+
+                    return;
+                }
+
+                if (s.includes('corrigir')) {
+                    session.state = 'corrigir';
+                    say('Claro! Me envie o pedido completo com as quantidades corrigidas.');
+                } else {
+                    say('Sua solicitação está organizada e aguarda confirmação da equipe. Se desejar acrescentar algo, é só me dizer.');
+                }
+
+                return;
+            }
+
+
+            if (session.state === 'sabor') {
+                const num = Number(s);
+                const flavors = catalog.filter(p => p.kind === 'pastel');
+                if (Number.isInteger(num) && num >= 1 && num <= 6) {
+                    session.selection = flavors[num - 1];
+                    session.state = 'quantidade';
+                    say('Quantos pastéis de ' + session.selection.name.replace('Pastel de ', '') + ' você deseja?')
+                }
+                else
+                    say('Para escolher um sabor, digite um número de 1 a 6, por favor.');
+                return
+            }
+
+            if (session.state === 'quantidade') {
+                const n = Number(s);
+                if (Number.isInteger(n) && n >= 1 && n <= 30) {
+                    const old = session.items.find(x => x.id === session.selection.id);
+                    if (old)
+                        old.qty += n;
+                    else
+                        session.items.push({ id: session.selection.id, qty: n });
+                    session.state = 'mais';
+                    say('Perfeito! Deseja adicionar outro sabor? Sim ou não?')
+                }
+                else
+                    say('Você poderia me informar uma quantidade entre 1 e 30?');
+                return
+            }
+
+            if (session.state === 'mais') {
+                if (yes(s)) {
+                    session.state = 'sabor';
+                    say('Escolha o próximo sabor: 1 Carne; 2 Carne com queijo; 3 Frango com queijo; 4 Queijo; 5 Pizza; 6 Calabresa.')
+                }
+                else if (no(s)) {
+                    render('Fritinho', summaryHTML() + 'É para retirada ou para consumir no trailer?', true);
+                    session.state = 'tipo'
+                }
+                else {
+                    say('Você gostaria de adicionar outro sabor? Pode responder sim ou não.')
+                }
+                return
+            }
+
+            if (responderBebidas(t)) return;
+
+            // Entrada de nova conversa: pedidos diretos têm prioridade sobre o cardápio.
+            if (hasOrderIntent(t) && parsedItems(t).length) {
+                showDirect(t);
+                return
+            }
+
+            if (s === 'pedido' || s === 'pedir' || s === 'comprar' || s === 'quero fazer um pedido') {
+                introductory(t);
+                session.state = 'sabor';
+                say('Claro! Vamos montar seu pedido. Escolha um sabor:\n1. Carne\n2. Carne com queijo\n3. Frango com queijo\n4. Queijo\n5. Pizza\n6. Calabresa');
+                return
+            }
+
+            if (/\b(cardapio|sabores|preco|quanto custa|quais pasteis|quais pasteis voces tem|tem pastel|pastel|pasteis|o que tem hoje|o que voces tem)\b/.test(s)) {
+                say(cardapio(t));
+                return
+            }
+
+            if (/\b(oi|ola|bom dia|boa tarde|boa noite|e ai|eai)\b/.test(s)) {
+                say(introductory(t) + 'Como posso ajudar? Se quiser conhecer os sabores, é só pedir o cardápio.');
+                return
+            }
+
+            if (/\b(endereco|localizacao|onde fica|onde voces ficam)\b/.test(s)) {
+                say(introductory(t) + 'Estamos na Praça da Boa Vizinhança, Cohaserma, São Luís - MA. O atendimento é para retirada ou consumo no trailer; não fazemos delivery.');
+                return
+            }
+
+            say(introductory(t) + 'Posso ajudar com os sabores, preços e pedidos da Frittin. Quer conhecer o cardápio ou fazer um pedido?')
+
+        }
+        function reset() {
+            geracaoConversa++;
+            if (envioTimer) clearTimeout(envioTimer);
+            enviando = false;
+            pendingInput = null;
+            session = {
+                cliente: '',
+                pedidoPendente: '',
+                state: 'inicio', items: [], selection: null, mode: '', fry: '', payment: '', introduced: false
+            };
+            chat.replaceChildren();
+            const w = document.createElement('div');
+            w.className = 'welcome';
+            w.id = 'welcome';
+            w.innerHTML = '<div class="mark"><img src="mascote_fritinho.png" alt="Mascote Fritinho"></div><b>Bem-vindo à Frittin!</b><p>Escreva sua mensagem para começar. Você pode perguntar pelos sabores ou informar diretamente o que deseja.</p>';
+            chat.append(w);
+            field.value = '';
+            salvarAtendimento();
+            field.focus()
+        }
+
+        // Salva a conversa localmente para recuperar após recarga acidental.
+        // Não envia pedidos ou dados do cliente a nenhum servidor.
+        const STORAGE_KEY = 'fritinho-atendimento-2026:' + location.pathname;
+        const STORAGE_VERSION = 1;
+        let enviando = false;
+        let pendingInput = null;
+        let envioTimer = null;
+        let geracaoConversa = 0;
+        function salvarAtendimento() {
+            try {
+                const estado = {
+                    version: STORAGE_VERSION,
+                    session: session,
+                    conversa: chat.innerHTML,
+                    rascunho: field.value,
+                    posicao: chat.scrollTop,
+                    pendingInput: pendingInput
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+            } catch (err) {
+                // Modo privativo ou armazenamento desativado: a conversa segue utilizável.
+                console.warn('Não foi possível salvar o atendimento neste navegador.', err);
+            }
+        }
+        function recuperarAtendimento() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return;
+                const estado = JSON.parse(raw);
+                if (!estado || estado.version !== STORAGE_VERSION ||
+                    !estado.session || !Array.isArray(estado.session.items) ||
+                    typeof estado.conversa !== 'string' || estado.conversa.length > 900000) return;
+                if (estado.session.items.some(it => !catalog.some(p => p.id === it.id) ||
+                    !Number.isInteger(it.qty) || it.qty < 1 || it.qty > 1000)) return;
+                const temp = document.createElement('template');
+                temp.innerHTML = estado.conversa;
+                const permitidos = new Set(['DIV', 'SPAN', 'P', 'B', 'STRONG', 'CODE', 'BUTTON', 'IMG', 'H3']);
+                for (const el of [...temp.content.querySelectorAll('*')]) {
+                    if (!permitidos.has(el.tagName)) { el.remove(); continue; }
+                    for (const a of [...el.attributes]) {
+                        if (!['class','id','alt','src','type','data-resposta'].includes(a.name) ||
+                            (a.name === 'src' && a.value !== 'mascote_fritinho.png')) el.removeAttribute(a.name);
+                    }
+                }
+                session = estado.session;
+                chat.replaceChildren(temp.content);
+                field.value = typeof estado.rascunho === 'string' ? estado.rascunho.slice(0,600) : '';
+                if (typeof estado.pendingInput === 'string' && estado.pendingInput.trim()) {
+                    pendingInput = estado.pendingInput;
+                    enviando = true;
+                    setTimeout(() => finalizarResposta(pendingInput), 0);
+                }
+                requestAnimationFrame(() => {
+                    chat.scrollTop = Number.isFinite(estado.posicao) ? estado.posicao : chat.scrollHeight;
+                });
+            } catch (err) { console.warn('Não foi possível recuperar a conversa.', err); }
+        }
+
+        // O chat responde sem mudar a página nem perder o estado.
+        function finalizarResposta(t) {
+            try { respond(t); }
+            catch (err) {
+                console.error(err);
+                say('Desculpe, houve um problema nesta etapa. Sua conversa foi preservada; tente novamente.');
+            } finally {
+                enviando = false;
+                pendingInput = null;
+                salvarAtendimento();
+                atualizarRespostasRapidas();
+                field.focus();
+            }
+        }
+        function enviarTexto(t) {
+            if (enviando || !t.trim()) return;
+            enviando = true;
+            pendingInput = t;
+            const estaGeracao = geracaoConversa;
+            field.value = '';
+            document.querySelectorAll('.quick-replies').forEach(el => el.remove());
+            render('Você', t);
+            salvarAtendimento();
+            const typing = document.createElement('div');
+            typing.className = 'message assistant pending-typing';
+            typing.innerHTML = '<div class="avatar"><img src="mascote_fritinho.png" alt="Fritinho"></div><div class="bubble typing-dots" aria-label="Fritinho digitando">•••</div>';
+            chat.append(typing);
+            chat.scrollTop = chat.scrollHeight;
+            envioTimer = setTimeout(() => {
+                if (estaGeracao !== geracaoConversa) return;
+                typing.remove(); finalizarResposta(t);
+            }, 160);
+        }
+
+        function atualizarRespostasRapidas() {
+            document.querySelectorAll('.quick-replies').forEach(el => el.remove());
+            let opcoes = [];
+            if (['confirmar','tipo'].includes(session.state)) opcoes = ['Retirada','Consumir no trailer'];
+            else if (session.state === 'fritar') opcoes = ['Sim, pode fritar','Ainda não'];
+            else if (session.state === 'pagamento') opcoes = ['Pix','Dinheiro','Débito','Crédito'];
+            if (!opcoes.length) return;
+            const bar = document.createElement('div');
+            bar.className = 'quick-replies';
+            for (const texto of opcoes) {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.textContent = texto;
+                btn.dataset.resposta = texto;
+                bar.append(btn);
+            }
+            chat.append(bar);
+            chat.scrollTop = chat.scrollHeight;
+            salvarAtendimento();
+        }
+
+        async function copiarPix(btn) {
+            try { await navigator.clipboard.writeText(PIX); }
+            catch (err) {
+                const f = document.createElement('textarea');
+                f.value = PIX; document.body.append(f); f.select();
+                document.execCommand('copy'); f.remove();
+            }
+            btn.textContent = 'Chave copiada!';
+            say('Chave Pix de demonstração copiada.');
+            salvarAtendimento();
+            setTimeout(() => { btn.textContent = 'Copiar chave Pix'; salvarAtendimento(); },2000);
+        }
+        chat.addEventListener('click', e => {
+            const c = e.target.closest('button.copy');
+            if (c) { copiarPix(c); return; }
+            const b = e.target.closest('button[data-resposta]');
+            if (b) enviarTexto(b.dataset.resposta);
+        });
+
+        const overlay = document.getElementById('modal-overlay');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const modalClose = document.getElementById('modal-close');
+        let focoAnterior = null;
+        function abrirPainel(tipo) {
+            focoAnterior = document.activeElement;
+            modalTitle.textContent = tipo === 'local' ? '📍 Localização' : '❔ Ajuda';
+            modalBody.innerHTML = tipo === 'local'
+                ? '<h3>Onde estamos</h3><p><b>Praça da Boa Vizinhança</b><br>Cohaserma — São Luís/MA</p><p>Atendimento para retirada ou consumo no trailer.</p><p><b>Não fazemos delivery.</b></p>'
+                : '<h3>Como pedir com o Fritinho</h3><ol><li>Informe seu pedido.</li><li>Adicione, retire ou troque produtos se precisar.</li><li>Escolha retirada ou consumo no trailer.</li><li>Aguarde a confirmação da equipe.</li></ol><p>Você pode escrever suas dúvidas normalmente.</p>';
+            overlay.hidden = false;
+            overlay.setAttribute('aria-hidden','false');
+            modalClose.focus();
+        }
+        function fecharPainel() {
+            overlay.hidden = true;
+            overlay.setAttribute('aria-hidden','true');
+            if (focoAnterior && typeof focoAnterior.focus === 'function') focoAnterior.focus();
+        }
+        document.getElementById('open-location').addEventListener('click',() => abrirPainel('local'));
+        document.getElementById('open-help').addEventListener('click',() => abrirPainel('ajuda'));
+        modalClose.addEventListener('click',fecharPainel);
+        overlay.addEventListener('click',e => { if (e.target === overlay) fecharPainel(); });
+        document.addEventListener('keydown',e => {
+            if (e.key === 'Escape' && !overlay.hidden) fecharPainel();
+            if (!overlay.hidden && e.key === 'Tab') {
+                e.preventDefault(); modalClose.focus();
+            }
+        });
+        window.addEventListener('pagehide', salvarAtendimento);
+        document.addEventListener('visibilitychange', () => { if (document.hidden) salvarAtendimento(); });
+        field.addEventListener('input', salvarAtendimento);
+
+        recuperarAtendimento();
+        document.getElementById('entry').addEventListener('submit', e => {
+            e.preventDefault();
+            const t = field.value.trim();
+            if (!t)
+                return;
+            enviarTexto(t);
+        }); document.getElementById('reset').addEventListener('click', reset);
+    </script>
+</body>
+
+</html>
