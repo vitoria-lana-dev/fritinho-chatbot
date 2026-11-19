@@ -31,7 +31,7 @@
         body {
             margin: 0;
             height: 100vh;
-            height: 100dvh;
+            height: var(--viewport-height, 100dvh);
             min-height: 0;
             overflow: hidden;
             overscroll-behavior: none;
@@ -46,7 +46,7 @@
 
         .app {
             width: min(1280px, 100%);
-            height: min(850px, calc(100dvh - 28px));
+            height: min(850px, calc(var(--viewport-height, 100dvh) - 28px));
             min-height: 0;
             max-height: 100%;
             background: #fff;
@@ -101,8 +101,9 @@
             width: 100%;
             margin-top: auto;
             min-height: 0;
-            overflow-y: auto;
-            scrollbar-width: thin;
+            /* Cartões sempre visíveis: a lateral não tem rolagem própria. */
+            overflow: visible;
+            flex: 0 0 auto;
         }
 
         .side-card {
@@ -141,7 +142,32 @@
         }
 
         .side-card li { margin-bottom: 5px; }
-        .side-card p { margin: 7px 0; }
+        .side-card p { margin: 5px 0; }
+        /* Compactação equilibrada: os dois cartões cabem mesmo em notebooks. */
+        @media(min-width:851px) {
+            .sidebar { padding: 15px 16px; }
+            .sidebar .logo {
+                width: min(240px, 100%);
+                max-height: min(185px, 26vh);
+                margin-top: 0;
+                flex-shrink: 1;
+            }
+            .sidebar-cards { gap: 9px; }
+            .side-card { padding: 10px 12px; font-size: 11.5px; line-height: 1.32; }
+            .side-card h3 { margin-bottom: 6px; font-size: 16px; gap: 7px; }
+            .side-card h3 .side-symbol { width: 28px; height: 28px; flex-shrink: 0; }
+            .side-card li { margin-bottom: 3px; }
+        }
+        @media(min-width:851px) and (max-width:1000px) {
+            .sidebar { flex-basis: 250px; padding: 12px 13px; }
+            .sidebar .logo { width: 190px; max-height: 120px; }
+            .sidebar-cards { gap: 7px; }
+            .side-card { padding: 8px 10px; font-size: 11px; line-height: 1.25; }
+            .side-card h3 { font-size: 15px; margin-bottom: 4px; }
+            .side-card h3 .side-symbol { width: 26px; height: 26px; }
+            .side-card li { margin-bottom: 1px; }
+            .side-card p { margin: 3px 0; }
+        }
         .mobile-actions { display: none; }
 
         .sidebar .logo {
@@ -456,6 +482,12 @@
             line-height: 1.6
         }
 
+        .human-action { display: inline-flex; align-items: center; justify-content: center;
+            margin-top: 12px; padding: 11px 16px; border-radius: 12px;
+            background: #16833b; color: white; font-weight: 800;
+            text-decoration: none; border: 1px solid #0e702e;
+            white-space: normal; text-align: center; }
+        .human-action:hover, .human-action:focus-visible { background: #10652d; color: white; }
         .payment-notice {
             background: #fff2bd;
             border-left: 5px solid #c20e18;
@@ -598,6 +630,15 @@
             color: #866e61;
             font-size: 11px;
             margin-top: 9px
+        }
+
+        /* Figurinha de encerramento: somente após concluir a solicitação. */
+        .thank-you-sticker {
+            display: block;
+            width: min(280px, 100%);
+            height: auto;
+            margin: 13px auto 5px;
+            object-fit: contain;
         }
 
         @keyframes pop {
@@ -813,6 +854,46 @@
                 width: 100%
             }
         }
+
+        /* Integração bancária simulada: não solicita dados financeiros reais. */
+        .simbox {margin:12px 0 6px; border:1px solid #d5c6ee; border-radius:14px; padding:13px 15px; background:linear-gradient(120deg,#faf7ff,#f4f7ff);white-space:normal}
+        .simbox strong {display:block;color:#492d74;margin-bottom:5px}
+        .simbox p {font-size:12px;line-height:1.5;margin:6px 0;color:#51445f}
+        .simbox button {background:#633b98;color:white;border:0;border-radius:10px;padding:11px 14px;font-weight:750;cursor:pointer;margin-top:7px;max-width:100%}
+        .simbox .sim-result {margin-top:10px;padding:10px;border-radius:9px;background:#eaf5eb;border:1px solid #8fba91;color:#23552a;font-size:13px}
+        .simbox code {overflow-wrap:anywhere}
+
+        .demo-finalizar { margin: 12px 0 5px; background: #17812e; color: #fff; font-weight: 800; border: 0; border-radius: 10px; padding: 13px 16px; cursor: pointer; width: 100%; }
+        .demo-finalizar:hover { background: #106722; }
+        .demo-finalizar:disabled { background: #8a9b8b; cursor: default; }
+        .demo-confirmada { padding: 14px; border: 1px solid #9fc3a2; background:#edfaef; color: #185c2d; border-radius: 12px; line-height:1.6; }
+        .location-action { display:inline-flex; align-items:center; gap:8px; background:#fff0bf; color:#95101b; padding:12px 16px; border:1px solid #f3c659; border-radius:12px; font-weight:800; text-decoration:none; margin-top:8px; }
+        .location-action:hover { background:#ffe18a; }
+        .contact-card { background:#fff8e7; border:1px solid #f0d7a7; border-radius:13px; padding:12px 14px; }
+        .contact-card p { margin: 7px 0; line-height:1.5; overflow-wrap:anywhere; }
+        .contact-card a { overflow-wrap:anywhere; }
+        .contact-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+        .contact-actions a { margin-top:6px; font-size:13px; }
+        @media(max-width:850px) {
+            html.keyboard-open .sidebar { display:none; }
+            html.keyboard-open .header { height:50px; padding:5px 8px; border-bottom-width:2px; }
+            html.keyboard-open .header .pill { font-size:19px; padding:3px 24px; box-shadow:0 2px 0 #f5b927; }
+            html.keyboard-open .header .subtitle,html.keyboard-open .header .status { display:none; }
+            html.keyboard-open .footer .helper { display:none; }
+            html.keyboard-open .footer { padding:5px 6px calc(5px + env(safe-area-inset-bottom, 0px)); }
+            html.keyboard-open .entry { flex-wrap:nowrap; }
+            html.keyboard-open .entry input { min-width:0; flex:1 1 auto; padding:10px; }
+            html.keyboard-open .entry .send { flex:0 0 auto; padding:10px 12px; }
+            html.keyboard-open .entry .new { display:none; }
+            html.keyboard-open .chat { padding:8px; }
+        }
+        @media(max-width:850px) { .header {height:70px;padding:5px 8px 4px;} .header .pill {font-size:22px;} .header .subtitle{margin-top:3px;} .sidebar{height:58px;} .sidebar .logo{height:57px;} .entry input{font-size:16px;} }
+
+        /* Após as regras de tablet: espaço suficiente para os dois cartões no desktop estreito. */
+        @media (min-width:851px) and (max-width:1000px) {
+            .sidebar { flex-basis: 250px; padding: 12px 13px; }
+            .sidebar .logo { width: 190px; max-height: 120px; }
+        }
     </style>
 </head>
 
@@ -832,8 +913,9 @@
                 <section class="side-card">
                     <h3><span class="side-symbol">📍</span> Onde estamos</h3>
                     <p><b>Praça da Boa Vizinhança</b><br>Cohaserma — São Luís/MA</p>
-                    <p>Retirada ou consumo no trailer.</p>
-                    <p><b>Não fazemos delivery.</b></p>
+                    <p><b>Referência:</b> Supermercado El Camiño (nas proximidades).</p>
+                    <p><b>WhatsApp:</b> <a href="tel:+5598988047772" style="color:#710a15;font-weight:800">(98) 98804-7772</a></p>
+                    <p>Retirada ou consumo no trailer. Não fazemos delivery.</p>
                 </section>
             </div>
             <div class="mobile-actions">
@@ -859,7 +941,7 @@
                         placeholder="Digite sua mensagem..." autocomplete="off" autofocus><button class="send"
                         type="submit">Enviar</button><button class="new" id="reset" type="button">Nova conversa</button>
                 </div>
-                <div class="helper">Protótipo para apresentação • Nenhum pedido ou pagamento é realizado automaticamente
+                <div class="helper">Demonstração escolar • Nenhum pedido ou pagamento é enviado automaticamente
                 </div>
             </form>
         </main>
@@ -873,6 +955,13 @@
     <script>
         'use strict';
         const PIX = 'pix-exemplo@frittin.invalid';
+        // Busca o estabelecimento 'Pastelaria Frittin', não uma rota partindo da antiga localização.
+        const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('Pastelaria Frittin Praça da Boa Vizinhança Cohaserma II São Luís Maranhão Brasil');
+        const TELEFONE_FRITTIN = '(98) 98804-7772';
+        const TELEFONE_DIGITOS = '5598988047772';
+        const TELEFONE_URL = 'tel:+5598988047772';
+        const WHATSAPP_CONTATO = 'https://wa.me/' + TELEFONE_DIGITOS;
+        const REFERENCIA = 'Supermercado El Camiño';
         const catalog = [
             { id: 'carne', name: 'Pastel de carne', price: 15, kind: 'pastel', aliases: ['carne'] },
             { id: 'carne_queijo', name: 'Pastel de carne com queijo', price: 15, kind: 'pastel', aliases: ['carne com queijo', 'carne e queijo'] },
@@ -910,7 +999,7 @@
         let session = {
             cliente: '',
             pedidoPendente: '',
-            state: 'inicio', items: [], selection: null, mode: '', fry: '', payment: '', introduced: false
+            state: 'inicio', items: [], selection: null, mode: '', fry: '', payment: '', sucoPendente: 0, ofereceuBebidas: false, introduced: false
         };
         function removeWelcome() {
             const w = document.getElementById('welcome');
@@ -964,10 +1053,87 @@
             if (session.introduced)
                 return '';
             session.introduced = true;
-            return greet(t) + ' Sou o Fritinho, assistente virtual da Frittin.\n\n'
+            const saudacao = greet(t);
+            return (session.cliente ? saudacao.slice(0, -1) + ', ' + session.cliente + '! 💛' : saudacao) +
+                ' Sou o Fritinho, assistente virtual da Frittin.\n\n';
         }
         function cardapio(t) {
-            return introductory(t) + 'Nosso cardápio — R$ 15,00 por pastel\n\nCarne\nCarne com queijo\nFrango com queijo\nQueijo\nPizza\nCalabresa\n\nSequinhos, crocantes e feitos com carinho! Assim são os pastéis da Frittin!\n\nEscolheu seu sabor? Digite PEDIDO para continuar.'
+            return introductory(t) + 'Nosso cardápio — R$ 15,00 por pastel\n\nCarne\nCarne com queijo\nFrango com queijo\nQueijo\nPizza\nCalabresa\n\nSequinhos, crocantes e feitos com carinho! Assim são os pastéis da Frittin!\n\nSe quiser pedir, é só me contar o sabor e a quantidade que deseja.'
+        }
+
+        function painelContatoHTML() {
+            return '<div class="contact-card">' +
+                '<p><b>📍 Endereço:</b> Praça da Boa Vizinhança, Cohaserma II, São Luís – MA.</p>' +
+                '<p><b>🏪 Ponto de referência:</b> nas proximidades do ' + escapeHTML(REFERENCIA) + '.</p>' +
+                '<p><b>📱 Contato:</b> <a href="' + TELEFONE_URL + '">' + escapeHTML(TELEFONE_FRITTIN) + '</a></p>' +
+                '<div class="contact-actions">' +
+                '<a class="location-action" target="_blank" rel="noopener noreferrer" href="' + MAPS_URL + '">📍 Abrir no Google Maps</a>' +
+                '<a class="human-action" target="_blank" rel="noopener noreferrer" href="' + WHATSAPP_CONTATO + '">💬 WhatsApp da Frittin</a></div>' +
+                '</div>';
+        }
+        function mostrarLocalizacao(t) {
+            const intro = introductory(t);
+            render('Fritinho', '<p>' + escapeHTML(intro + 'Aqui está nossa localização! 💛') + '</p>' +
+                painelContatoHTML() + '<p class="fineprint">Os links abrem fora desta conversa. Seu atendimento continua aqui.</p>', true);
+        }
+        function mostrarTelefone() {
+            render('Fritinho', '<p>Claro! 💛 O telefone e WhatsApp da Frittin é <b>' + escapeHTML(TELEFONE_FRITTIN) + '</b>.</p>' +
+                '<a class="human-action" target="_blank" rel="noopener noreferrer" href="' + WHATSAPP_CONTATO + '">💬 Conversar pelo WhatsApp</a>', true);
+        }
+        const RESPOSTA_DELIVERY = 'No momento, não trabalhamos com delivery, somente retirada e consumo no trailer. 💛\n\nValorizamos muito a qualidade dos nossos pastéis, então decidimos não trabalhar com delivery por enquanto.';
+        function foiPerguntaDelivery(s) {
+            // "Não quero entrega, vou buscar" não é uma pergunta sobre delivery.
+            if (/\b(nao quero entrega|nao e entrega|sem entrega|nao precisa entregar|vou buscar|vou pegar ai)\b/.test(s) &&
+                !/\b(voces fazem entrega|fazem delivery|entregam|tem delivery)\b/.test(s)) return false;
+            return /\b(delivery|entrega|entregam|entregas|entregar|entregue|mandar em casa|leva em casa)\b/.test(s);
+        }
+        function foiPerguntaLocal(s) {
+            return /\b(onde fica|onde voces ficam|localizacao|endereco|como chegar|onde e a pastelaria|onde voces estao|onde esta localizado|manda a localizacao|passa a localizacao|ponto de referencia|perto de onde|onde e que fica|como vou ai|me manda o mapa)\b/.test(s);
+        }
+        function foiPerguntaTelefone(s) {
+            return /\b(qual (?:e )?(?:o )?telefone|numero de telefone|numero do whatsapp|qual (?:e )?(?:o )?numero|passa (?:o )?(?:numero|telefone)|me manda (?:o )?(?:numero|contato)|telefone de voces|contato da frittin|qual whatsapp|whatsapp de voces)\b/.test(s);
+        }
+        function foiPerguntaPrecoPastel(s) {
+            return /\b(quanto custa|qual (?:e |o )?preco|quanto e|valor do|preco do|valor de|qual valor)\b/.test(s) && /\b(pastel|pasteis)\b/.test(s);
+        }
+        function foiPerguntaSabores(s) {
+            return /\b(quais sabores|sabores|quais pasteis|que pasteis|opcoes de pastel|quais tipos de pastel|que sabores)\b/.test(s);
+        }
+        function mencionaSomentePastel(s) {
+            return /^(?:eu )?(?:quero|queria|gostaria de|me ve|pode me ver|um|uma|tem|voces tem)?\s*(?:um|uma|o)?\s*paste(?:l|is)[.!?]*$/.test(s);
+        }
+        function detectarModalidade(s) {
+            if (/\b(vou consumir|para consumir|pra consumir|vou comer ai|comer ai|comer no trailer|consumir no trailer|vou comer no local|consumir ai|consumir aqui|no trailer|no local)\b/.test(s) || /^(consumir|consumo no trailer)[.!?]*$/.test(s)) return 'Consumir no trailer';
+            if (/\b(vou buscar|vou pegar ai|pra eu pegar|para eu pegar|pra buscar|para buscar|pra retirar|para retirar|vou retirar|para retirada|pra retirada|e pra levar|para levar|pra viagem|retirar no trailer|pego ai|vou passar ai pra pegar|vou passar ai para pegar|vou buscar ai|quero para retirada|quero pra retirada)\b/.test(s) || /^(retirada|pra levar|para levar)[.!?]*$/.test(s)) return 'Retirada';
+            return '';
+        }
+        function detectarPagamento(s) {
+            // Perguntar se aceitamos Pix não significa escolher Pix.
+            if (/\b(posso|pode|voces aceitam|aceita|tem)\b.*\b(pagar|pix|debito|credito)\b/.test(s) &&
+                !/\b(vou pagar|quero pagar|vai ser no|pode ser no)\b/.test(s)) return '';
+            if (!/\b(vou pagar|quero pagar|pagamento|vou fazer no|vai ser no|pago no|pagar em|pagar com|pagar no|pode ser no)\b/.test(s)) return '';
+            if (/\bpix\b/.test(s)) return 'Pix';
+            if (/\bdinheiro|especie\b/.test(s)) return 'Dinheiro';
+            if (/\bdebito\b/.test(s)) return 'Débito — presencial';
+            if (/\bcredito\b/.test(s)) return 'Crédito — presencial';
+            return '';
+        }
+        function registrarPreferencias(s) {
+            const modo = detectarModalidade(s);
+            if (modo) session.mode = modo;
+            const pagamento = detectarPagamento(s);
+            if (pagamento) session.payment = pagamento;
+            if (/\b(ja pode fritar|pode fritar|pode preparar|pode fazer agora)\b/.test(s) && !/\b(nao|não|ainda nao)\b/.test(s) && !s.includes('?'))
+                session.fry = 'Sim, sujeito à confirmação da equipe';
+        }
+        function prosseguirFluxo() {
+            if (!session.mode) { session.state = 'confirmar'; say((session.cliente ? session.cliente + ', ' : '') + 'é para retirada ou para consumir no trailer?'); return; }
+            if (!session.fry) { session.state = 'fritar'; say('Anotei: ' + session.mode + '. 💛 Já podemos fritar seus pastéis? A equipe ainda precisaria confirmar o preparo.'); return; }
+            if (!session.payment) { session.state = 'pagamento'; say((session.cliente ? session.cliente + ', ' : '') + 'qual será a forma de pagamento: Pix, dinheiro, débito ou crédito?'); return; }
+            complete(session.payment);
+        }
+        function pedidoParaRetiradaSemItem(s) {
+            return /\b(pode fazer|pode separar|faz uns pasteis|quero encomendar|vou buscar|vou pegar ai|pra eu pegar|para eu pegar)\b/.test(s) && !parsedItems(s).length;
         }
 
         function hasOrderIntent(t) {
@@ -1012,8 +1178,12 @@
             const items = [];
             for (let j = 0; j < chosen.length; j++) {
                 const c = chosen[j], previous = j ? chosen[j - 1].end : 0;
-                const before = s.slice(Math.max(previous, c.start - 45), c.start);
-                const m = before.match(/(?:^|\b(?:e|mais|quero|pedir|de|com|um|uma)\b|[,;])\s*(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\s*(?:pasteis?\s*)?(?:de\s*)?$/);
+                // Interpreta o número mais próximo do produto, independentemente
+                // de a pessoa escrever 'vou buscar', 'pode separar' ou 'quero'.
+                // Limita a busca ao trecho após o produto anterior para não
+                // usar a mesma quantidade em dois produtos diferentes.
+                const before = s.slice(previous, c.start);
+                const m = before.match(/(?:^|[\s,;:])(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\s*(?:x\s*)?(?:(?:pasteis?|sucos?|refrigerantes?)\s*)?(?:de\s*)?$/);
                 let qty = m ? (numberWords[m[1]] || Number(m[1])) : 1;
                 if (qty < 1 || qty > 30)
                     return [];
@@ -1029,6 +1199,53 @@
             }
             return merged
 
+        }
+        function saborInformadoSemQuantidade(t) {
+            // Reconhece um sabor sozinho, inclusive depois de uma pergunta genérica.
+            // Uma mensagem como 'carne' ainda NÃO informa quantas unidades são desejadas.
+            let s = norm(t).replace(/[.!?]+$/, '').trim();
+            s = s.replace(/^(?:(?:eu )?(?:quero|queria|gostaria de|me ve|pode ser|so|apenas)\s+)+/, '');
+            s = s.replace(/^(?:(?:o|a)\s+)?(?:sabor\s+de|pastel\s+de|o\s+de|de)\s+/, '');
+            const sabores = catalog.filter(p => p.kind === 'pastel');
+            return sabores.find(p => p.aliases.some(a => norm(a) === s)) || null;
+        }
+        function quantidadeDaResposta(t) {
+            // Aceita '2', 'dois', 'quero 2', 'duas unidades' sem exigir número digitado.
+            const s = norm(t).replace(/[.!?]+$/, '').trim();
+            const m = s.match(/^(?:(?:eu\s+)?(?:quero|queria|gostaria de|vai ser|sao|serao|pode ser)\s+)?(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)(?:\s+(?:pasteis|pastel|unidades|unidade|de\s+\w+(?:\s+\w+)*))?$/);
+            if (!m) return null;
+            const n = numberWords[m[1]] || Number(m[1]);
+            return Number.isInteger(n) && n >= 1 && n <= 30 ? n : null;
+        }
+        function nomeValidoParaAtendimento(nome) {
+            const s = norm(nome);
+            return /^[A-Za-zÀ-ÿ]+(?:[ '-][A-Za-zÀ-ÿ]+)*$/.test(nome) &&
+                nome.length <= 60 && nome.split(/\s+/).length <= 5 &&
+                !/^(oi|ola|bom dia|boa tarde|boa noite|sim|nao|retirada|pix|dinheiro|debito|credito|pedido|pastel|pasteis)$/.test(s) &&
+                !saborInformadoSemQuantidade(nome) &&
+                !catalog.some(p => p.aliases.some(a => norm(a) === s));
+        }
+        function extrairNome(t) {
+            return t.trim().replace(/^(?:meu nome (?:é|e)|me chamo|me chama de|pode me chamar de|eu sou|sou)\s+/i, '')
+                .replace(/[.!?]+$/, '').replace(/^(?:a|o)\s+/i, '').trim();
+        }
+        // O nome pode aparecer no início, no meio de uma saudação ou junto com
+        // uma pergunta e um pedido. Capturar somente o nome, nunca o restante da frase.
+        function nomeApresentadoNaMensagem(t) {
+            const m = t.match(/\b(?:meu nome (?:é|e)|me chamo|me chama de|pode me chamar de|eu sou)\s+([^,.!?;]+)/i);
+            if (!m) return null;
+            const nome = m[1].split(/\s+(?:mas|porque|por que|pra que|para que|quero|queria|gostaria|vou|pode|podemos|preciso|e\s+(?:quero|vou|gostaria|pode))\b/i)[0].trim();
+            return nomeValidoParaAtendimento(nome) ? nome : null;
+        }
+        function perguntaMotivoDoNome(t) {
+            const s = norm(t);
+            if (!/\bnome\b/.test(s)) return false;
+            return /\b(por que|porque|pra que|para que|qual (?:e )?o motivo|precisa|precisam|quer saber|pedem|pede|pra que serve|vai fazer com)\b/.test(s);
+        }
+        function explicarUsoDoNome() {
+            const tratamento = session.cliente ? session.cliente + ', ' : '';
+            return tratamento + 'pedimos seu nome para identificar sua solicitação e ajudar a equipe da Frittin a organizar os pedidos corretamente. 💛 ' +
+                'Assim, conseguimos saber a quem pertence cada pedido.';
         }
         function getItem(it) {
             return catalog.find(p => p.id === it.id)
@@ -1068,9 +1285,16 @@
 
         function showDirect(t) {
             session.items = parsedItems(t);
+            registrarPreferencias(norm(t));
             const intro = introductory(t);
-            render('Fritinho', escapeHTML(intro + 'Vou organizar sua solicitação para conferência. A equipe verificará a disponibilidade dos produtos.') + summaryHTML(false) + 'Está tudo certinho? É para retirada ou para consumir no trailer?', true);
-            session.state = 'confirmar'
+            // Se modalidade, preparo e pagamento já vieram na mesma mensagem,
+            // o próximo passo exibirá o resumo final. Evita duas comandas seguidas.
+            const dadosCompletos = Boolean(session.mode && session.fry && session.payment);
+            render('Fritinho', '<p>' + escapeHTML(intro + 'Vou organizar sua solicitação para conferência. A equipe verificará a disponibilidade dos produtos.') + '</p>' +
+                (dadosCompletos ? '' : summaryHTML(false)), true);
+            // O cliente pode solicitar a chave ANTES do pedido ou junto com ele.
+            if (/\b(manda|me manda|me passa|envia|chave)\b.*\bpix\b/.test(norm(t))) showPix();
+            prosseguirFluxo();
         }
 
         function showPix() {
@@ -1085,20 +1309,131 @@
             const msg = render('Fritinho', '');
             msg.querySelector('.bubble>div').append(p)
         }
+        function painelPagamentoSimulado() {
+            // Somente simulação local, sem requests ou credenciais reais.
+            if (!session.items.length || !session.payment) return '';
+            const rotulo = session.payment === 'Pix' ? 'Pix fictício' :
+                session.payment === 'Dinheiro' ? 'Dinheiro presencial (demonstração)' :
+                session.payment + ' (demonstração)';
+            return '<div class="simbox"><strong>🏦 Simulador de pagamento — ambiente escolar</strong>' +
+                '<p><b>Forma:</b> ' + escapeHTML(rotulo) + '<br><b>Total fictício:</b> ' + money(subtotal(session.items)) + '</p>' +
+                '<p>Esta é uma demonstração visual do retorno de uma API bancária. Nenhum banco é consultado, nenhum valor é cobrado e não solicitamos dados de cartão.</p>' +
+                '<button type="button" class="simular-pagamento">Simular resposta do banco</button>' +
+                '<div class="sim-result" hidden aria-live="polite"></div></div>';
+        }
+        function simularRespostaPagamento(btn) {
+            if (!session.items.length || !session.payment) return;
+            const painel = btn.closest('.simbox');
+            if (!painel) return;
+            const resultado = painel.querySelector('.sim-result');
+            resultado.hidden = false;
+            resultado.innerHTML = '<b>✅ Resposta simulada: APROVADO (FICTÍCIO)</b>' +
+                '<br>Ambiente: TESTE ESCOLAR' +
+                '<br>Valor demonstrativo: ' + money(subtotal(session.items)) +
+                '<br>Forma de pagamento: ' + escapeHTML(session.payment) +
+                '<br><b>Situação real: NÃO PAGO.</b> A equipe ainda precisará confirmar a solicitação.';
+            btn.disabled = true;
+            btn.textContent = 'Simulação exibida';
+            salvarAtendimento();
+        }
+        // A versão escolar demonstra o fluxo de atendimento; NÃO transmite solicitações.
+        function finalizarHTML() {
+            // Barreira final: nenhum caminho pode exibir "Finalizar" antes de identificar
+            // o cliente, mesmo se ele alterar produtos/modalidade/pagamento várias vezes.
+            if (!session.cliente) {
+                session.state = 'aguardando_nome_final';
+                return '<p>Antes de confirmar seu pedido, só me diga: <b>como posso chamar você?</b> 💛</p>' +
+                    '<p class="fineprint">Pode informar apenas seu nome. Seu pedido e suas escolhas estão guardados.</p>';
+            }
+            return '<p>Está tudo certinho? Já podemos finalizar esta demonstração do atendimento? 💛</p>' +
+                '<button type="button" class="demo-finalizar">✅ Sim, finalizar atendimento (demonstração)</button>' +
+                '<p class="fineprint">Demonstração escolar: nenhum pedido será enviado à equipe e nenhum pagamento será realizado.</p>';
+        }
+        let encerramentoTimer = null;
+        function finalizarDemonstracao() {
+            // Segurança adicional para cliques em botões antigos que ainda apareçam no histórico.
+            if (!session.cliente && session.items.length && session.mode && session.payment) {
+                session.state = 'aguardando_nome_final';
+                say('Antes de finalizar, preciso identificar a solicitação. 💛 Como posso chamar você?');
+                return;
+            }
+            if (session.state !== 'concluido' || !session.items.length || !session.cliente || !session.mode || !session.payment) {
+                say('Vamos conferir os produtos, a modalidade e o pagamento antes de encerrar. 💛'); return;
+            }
+            session.state = 'encerrado';
+            field.disabled = true;
+            document.querySelector('.send').disabled = true;
+            document.querySelectorAll('.demo-finalizar').forEach(b => { b.disabled = true; b.textContent = 'Atendimento encerrado'; });
+            render('Fritinho', '<div class="demo-confirmada"><b>✅ Atendimento de demonstração concluído!</b><p>Obrigada pela preferência! 💛 Esta foi uma simulação escolar: nenhum pedido foi enviado à cozinha ou registrado como compra real.</p><p>A tela inicial será restaurada automaticamente.</p></div>' +
+                '<img class="thank-you-sticker" src="figurinha_agradecimento.png" alt="Obrigada e volte sempre!">', true);
+            salvarAtendimento();
+            clearTimeout(encerramentoTimer);
+            encerramentoTimer = setTimeout(reset, 6500);
+        }
         function complete(payment) {
             session.payment = payment;
+            // Nome é obrigatório para CONFIRMAR o atendimento, não para começar a conversar.
+            if (!session.cliente) {
+                session.state = 'aguardando_nome_final';
+                // O resumo final será exibido depois que o cliente disser o nome,
+                // evitando uma prévia duplicada enquanto aguardamos identificação.
+                render('Fritinho', '<p>Já organizei sua solicitação! 💛</p>' +
+                    '<p>Antes de confirmar seu pedido, só me diga: <b>como posso chamar você?</b></p>', true);
+                return;
+            }
             session.state = 'concluido';
             const mensagens = {
-                'Dinheiro': 'Perfeito! 💛 O pagamento em dinheiro poderá ser realizado diretamente com nossa equipe no trailer. Sua solicitação continuará aguardando confirmação.',
-                'Débito — presencial': 'Combinado! 💛 Você poderá realizar o pagamento no débito diretamente com nosso atendente, no trailer.',
-                'Crédito — presencial': 'Perfeito! 💛 O pagamento no crédito será realizado presencialmente com nossa equipe. As condições poderão ser confirmadas com o atendente.'
+                'Dinheiro': 'Combinado! 💛 O pagamento em dinheiro seria feito presencialmente no trailer.',
+                'Débito — presencial': 'Combinado! 💛 O pagamento no débito seria feito presencialmente no trailer.',
+                'Crédito — presencial': 'Perfeito! 💛 O pagamento no crédito seria presencial, com nossa equipe.'
             };
-            if (payment === 'Pix') showPix();
-            const abertura = mensagens[payment] ||
-                'Perfeito! A forma de pagamento escolhida foi Pix. Não efetue transferência por esta demonstração.';
+            const abertura = mensagens[payment] || 'Perfeito! 💛 Registrei Pix como forma de pagamento pretendida. A chave desta demonstração é fictícia.';
             render('Fritinho', '<p class="payment-notice">' + escapeHTML(abertura) + '</p>' +
-                summaryHTML(true) +
-                '<p>Agradecemos o contato! Nossa equipe precisará confirmar sua solicitação.</p>', true);
+                summaryHTML(true) + finalizarHTML(), true);
+            if (payment === 'Pix') showPix();
+        }
+
+        // Permite trocar a forma de pagamento após concluir a solicitação,
+        // sem alterar o carrinho nem registrar pagamento real.
+        function processarAlteracaoPagamento(t) {
+            if (session.state !== 'concluido' || !session.items.length) return false;
+            const s = norm(t);
+            // Quando a frase também altera produtos, a edição dos itens deve ser processada
+            // antes da mensagem específica de troca de pagamento. registrarPreferencias já
+            // atualizou o pagamento pretendido, então nenhuma das intenções se perde.
+            if (/\b(coloca|coloque|adiciona|adicione|acrescenta|acrescente|inclua|inclui|tira|tire|retira|retire|remove|remova)\b/.test(s) &&
+                /\b(pastel|pasteis|suco|sucos|coca|guarana|agua|batata|coxinha|pizza|carne|queijo|calabresa|maracuja|refrigerante|fanta|sprite)\b/.test(s)) return false;
+            // Não confundir perguntas como "aceita Pix?" com mudança de pagamento.
+            const pedidoDeMudanca = /\b(mudar|muda|mude|alterar|altera|trocar|troca|substituir|corrigir|corrige|na verdade|prefiro|vou pagar|quero pagar|quero mudar|quero trocar)\b/.test(s);
+            if (!pedidoDeMudanca) return false;
+            const mencionaPagamento = /\b(pagamento|pagar|pix|dinheiro|especie|debito|credito|cartao)\b/.test(s);
+            if (!mencionaPagamento) return false;
+            if (/\b(boleto|vale alimentacao|vale refeicao)\b/.test(s)) {
+                say('Essa forma de pagamento não está disponível. Você prefere Pix, dinheiro, débito ou crédito?');
+                return true;
+            }
+            // Captura a opção desejada após "para/por/no/em" quando presente.
+            const destino = s.match(/\b(?:para|por|no|na|em)\s+(?:o\s+|a\s+)?(?:cartao\s+(?:de\s+)?)?(pix|dinheiro|especie|debito|credito)\b/g);
+            const alvo = destino && destino.length ? destino[destino.length - 1] : s;
+            const encontrados = [...alvo.matchAll(/\b(pix|dinheiro|especie|debito|credito)\b/g)].map(m => m[1]);
+            const opcoes = [...new Set(encontrados.map(v =>
+                v === 'pix' ? 'Pix' : v === 'dinheiro' || v === 'especie' ? 'Dinheiro' :
+                v === 'debito' ? 'Débito — presencial' : 'Crédito — presencial'))];
+            if (opcoes.length !== 1) {
+                say('Claro! Para qual forma de pagamento deseja mudar: Pix, dinheiro, débito ou crédito?');
+                return true;
+            }
+            const novoPagamento = opcoes[0];
+            if (session.payment === novoPagamento) {
+                say('Sua forma de pagamento já está como ' + novoPagamento + '. 💛');
+                return true;
+            }
+            session.payment = novoPagamento;
+            render('Fritinho', '<p class="payment-notice">' + escapeHTML('Prontinho! 💛 Alterei a forma de pagamento para ' + novoPagamento + '. Nenhum pagamento foi realizado.') + '</p>' +
+                summaryHTML(true) + '<p>Sua solicitação continua aguardando confirmação da equipe.</p>' +
+                finalizarHTML(), true);
+            if (novoPagamento === 'Pix') showPix();
+            return true;
         }
 
         function yes(t) {
@@ -1142,6 +1477,70 @@
         }
 
 
+
+        function processarSubstituicaoExplicita(t) {
+            const s = norm(t).replace(/[!?.,]+/g, ' ').replace(/\s+/g, ' ').trim();
+            // Sem iniciar uma troca caso a frase fale de troca de pagamento.
+            const padrao = /\b(?:trocar|troca|troque|substituir|substitui|substitua|mudar|mude)\s+(.+?)\s+(?:por|pelo|pela)\s+(.+)$/;
+            const m = s.match(padrao);
+            if (!m) return false;
+            const origem = parsedItems(m[1]);
+            const destino = parsedItems(m[2]);
+            if (!origem.length && !destino.length) return false;
+            // Se o destino é um pastel fora do cardápio, avisar e manter o pedido.
+            // Não tentar interpretar a origem como uma nova adição.
+            const destinoPastel = m[2].match(/\bpaste(?:l|is)\s+de\s+(.+)$/);
+            if (origem.length === 1 && destinoPastel) {
+                const saborSolicitado = destinoPastel[1].replace(/[.!?.,]+$/g, '').trim();
+                const saborDisponivel = catalog.filter(p => p.kind === 'pastel').some(p =>
+                    p.aliases.some(alias => saborSolicitado === norm(alias))
+                );
+                if (!saborDisponivel) {
+                    const itemAtual = session.items.find(it => it.id === origem[0].id);
+                    const preservacao = itemAtual
+                        ? 'Mantive ' + itemAtual.qty + '× ' + getItem(itemAtual).name + ' na sua solicitação, sem nenhuma alteração.'
+                        : 'Sua solicitação não foi alterada.';
+                    oferecerAtendimentoHumano(
+                        'Poxa, infelizmente não temos pastel de ' + saborSolicitado + ' no nosso cardápio. 💛\n\n' +
+                        preservacao + '\n\n' +
+                        'Temos estes sabores: carne, carne com queijo, frango com queijo, queijo, pizza e calabresa. 🥟\n\n' +
+                        'Gostaria de escolher outro sabor? Se preferir, nossa equipe pode ajudar pelo WhatsApp.'
+                    );
+                    return true;
+                }
+            }
+            if (origem.length !== 1 || destino.length !== 1) {
+                say('Claro! 💛 Para trocar sem erro, diga o produto que sai e o que entra. Por exemplo: trocar o pastel de pizza por um de calabresa.');
+                return true;
+            }
+            const antigo = session.items.find(it => it.id === origem[0].id);
+            if (!antigo) {
+                say('Não encontrei ' + getItem(origem[0]).name + ' na sua solicitação. Nenhum item foi alterado. 💛');
+                return true;
+            }
+            const mencaoQuantidade = /\b(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\b/.test(m[1]);
+            const todos = /\b(todos|todas)\b/.test(m[1]);
+            const quantidade = todos ? antigo.qty : mencaoQuantidade ? origem[0].qty : (antigo.qty === 1 ? 1 : null);
+            if (!Number.isInteger(quantidade) || quantidade < 1 || quantidade > antigo.qty) {
+                say('Você tem ' + antigo.qty + ' unidades de ' + getItem(antigo).name + '. Quantas deseja trocar? Pode repetir a troca informando a quantidade? Nada foi alterado. 💛');
+                return true;
+            }
+            if (origem[0].id === destino[0].id) {
+                say('Os dois produtos são iguais. Sua solicitação continua sem alterações. 💛');
+                return true;
+            }
+            const nomeAntigo = getItem(antigo).name;
+            const nomeNovo = getItem(destino[0]).name;
+            // Não adiciona a quantidade indicada no destino como uma compra independente:
+            // na substituição, a quantidade trocada é a quantidade que sai.
+            antigo.qty -= quantidade;
+            if (!antigo.qty) session.items = session.items.filter(it => it.id !== antigo.id);
+            const existente = session.items.find(it => it.id === destino[0].id);
+            if (existente) existente.qty += quantidade;
+            else session.items.push({ id: destino[0].id, qty: quantidade });
+            mostrarPedidoAtualizado('Troquei ' + quantidade + '× ' + nomeAntigo + ' por ' + quantidade + '× ' + nomeNovo + '.');
+            return true;
+        }
 
         function processarTrocaProdutos(t) {
             const s = norm(t);
@@ -1208,8 +1607,10 @@
                 return '<p>Já podemos fritar seus pastéis? A equipe ainda precisará confirmar o preparo.</p>';
             if (session.state === 'pagamento')
                 return '<p>Você prefere Pix, dinheiro, débito ou crédito?</p>';
+            if (session.state === 'aguardando_nome_final' && !session.cliente)
+                return '<p>Já atualizei sua solicitação! 💛 Antes da confirmação, como posso chamar você?</p>';
             if (session.state === 'concluido')
-                return '<p>Seu pedido atualizado continua aguardando confirmação da equipe.</p>';
+                return finalizarHTML();
             return '';
         }
 
@@ -1245,7 +1646,7 @@
             const alias = itemNome.aliases.find(a => s.includes(norm(a))) || itemNome.name;
             const idx = s.indexOf(norm(alias));
             const trechoAnterior = idx >= 0 ? s.slice(Math.max(0,idx-42),idx) : s;
-            const numero = trechoAnterior.match(/\b(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\s*(?:pasteis?\s*)?(?:de\s*)?$/);
+            const numero = trechoAnterior.match(/\b(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\s*(?:paste(?:l|is)\s*)?(?:de\s*)?$/);
             const quantidade = todos ? atual.qty : numero ? (numberWords[numero[1]] || Number(numero[1])) : atual.qty === 1 ? 1 : null;
             if (quantidade === null) {
                 session.retiradaPendenteId = atual.id;
@@ -1262,21 +1663,136 @@
             return true;
         }
 
+        function listarBebidasDisponiveis() {
+            const itens = catalog.filter(p => p.kind === 'extra' &&
+                /coca|guarana|suco|agua|h2o|limoneto/i.test(p.id));
+            say('Claro! 💛 Estas são as bebidas do nosso cardápio:\n' +
+                itens.map(p => '• ' + p.name + ' — ' + money(p.price)).join('\n') +
+                '\n\nQual delas você gostaria de pedir?');
+        }
         function responderBebidas(t) {
             const s = norm(t);
-            if (/\b(bebidas|refrigerantes|quais sucos|que sucos|o que tem pra beber|o que voces tem pra beber)\b/.test(s)) {
-                const itens = catalog.filter(p => p.kind === 'extra' &&
-                    /coca|guarana|suco|agua|h2o|limoneto/i.test(p.id));
-                say('Temos estas bebidas (valores de demonstração):\n' +
-                    itens.map(p => '• ' + p.name + ' — ' + money(p.price)).join('\n') +
-                    '\n\nQuer acrescentar alguma à sua solicitação?');
+            if (/\b(bebidas|refrigerantes|quais sucos|que sucos|o que tem pra beber|o que voces tem pra beber|opcoes de bebidas|opcoes de refrigerante)\b/.test(s)) {
+                session.ofereceuBebidas = false;
+                listarBebidasDisponiveis();
                 return true;
             }
-            if (/\b(fanta(?: de)? uva|sprite|suco de acerola|suco acerola)\b/.test(s)) {
-                say('Infelizmente, esse sabor não está no nosso cardápio. 💛 Temos suco de maracujá, Coca-Cola, Guaraná e outras opções. Quer conhecer as bebidas?');
+            if (/\b(fanta|sprite|suco de acerola|suco acerola)\b/.test(s)) {
+                const indisponivel = /\bfanta\b/.test(s) ? 'Fanta' :
+                    /\bsprite\b/.test(s) ? 'Sprite' : 'suco de acerola';
+                session.ofereceuBebidas = true;
+                say('Poxa, no momento não temos ' + indisponivel + '. 💛\n\n' +
+                    'Temos outras bebidas, como Coca-Cola, Guaraná e suco de maracujá. ' +
+                    'Gostaria de conhecer as opções disponíveis?');
                 return true;
             }
             return false;
+        }
+
+        // Suco mencionado sem sabor: não adivinhar nem registrar como se fosse maracujá.
+        // A quantidade e as preferências (retirada e pagamento) são preservadas enquanto
+        // o cliente esclarece o sabor, inclusive se a mensagem combinar vários assuntos.
+        function pedidoDeSucoSemSabor(s, itensReconhecidos) {
+            if (!/\bsucos?\b/.test(s)) return false;
+            if (itensReconhecidos.some(it => it.id.startsWith('suco_'))) return false;
+            if (/\b(quais sucos|que sucos|quais sabores de suco|preco do suco|quanto custa o suco|tem suco|voces tem suco)\b/.test(s)) return false;
+            return /\b(coloca|coloque|colocar|adicione|adiciona|adicionar|acrescente|acrescenta|acrescentar|inclua|inclui|incluir|quero|queria|gostaria|me ve|manda|pedir|compra|comprar|mais um|mais dois)\b/.test(s);
+        }
+        function quantidadeDeSuco(s) {
+            const match = s.match(/\b(\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)\s+sucos?\b/);
+            const quantidade = match ? (numberWords[match[1]] || Number(match[1])) : 1;
+            return Number.isInteger(quantidade) && quantidade >= 1 && quantidade <= 30 ? quantidade : null;
+        }
+        function perguntarSaborSuco(qtd, prefs) {
+            const plural = qtd === 1 ? 'um suco' : qtd + ' sucos';
+            say((prefs ? prefs + ' 💛\n\n' : 'Claro! 💛 ') +
+                'Para acrescentar ' + plural + ', qual sabor você prefere?\n' +
+                'No momento temos suco de maracujá 300 ml (R$ 7,00 cada). ' +
+                'Ainda não incluí o suco no total, pois preciso confirmar o sabor.');
+        }
+        function concluirSucoPendente(s) {
+            if (!session.sucoPendente) return false;
+            if (/^(nao|nao quero|cancela|cancelar|esquece|desisti|deixa pra la|deixa para la)(?:\b|$)/.test(s) &&
+                /^(?:nao|nao quero mais|cancela|cancelar|esquece|desisti|deixa pra la|deixa para la)(?:[.!?]*)$/.test(s)) {
+                session.sucoPendente = 0;
+                say('Tudo bem! 💛 Não acrescentei o suco. Sua solicitação continua como estava.');
+                return true;
+            }
+            if (/\bnao\b/.test(s) && /\bmaracuja\b/.test(s)) {
+                say('Entendi, você não quer suco de maracujá. 💛 No nosso cardápio, esse é o único sabor de suco listado. Prefere cancelar o acréscimo?');
+                return true;
+            }
+            if (!/\bmaracuja\b/.test(s)) {
+                // Perguntas independentes e pedidos de outros produtos continuam permitidos.
+                // Apenas mensagens que respondem à escolha do sabor ficam neste ramo.
+                if (/^(?:(?:quero|pode ser|um|uma|o|de|suco|sabor|esse|esse de)\s+)*[a-z ]+$/.test(s) &&
+                    !/\b(quero pagar|vou pagar|retirada|consumir|trailer|pix|dinheiro|debito|credito|pastel|falar|onde|localizacao|endereco|preco|entrega|delivery)\b/.test(s) &&
+                    !/\b(adiciona|coloca|acrescenta|tira|retira|troca)\b/.test(s)) {
+                    say('Por enquanto, o sabor de suco disponível no momento é maracujá. 💛 Você prefere esse sabor ou quer cancelar o acréscimo?');
+                    return true;
+                }
+                return false;
+            }
+            const qty = session.sucoPendente;
+            session.sucoPendente = 0;
+            const existente = session.items.find(it => it.id === 'suco_maracuja');
+            if (existente) existente.qty += qty;
+            else session.items.push({id:'suco_maracuja',qty});
+            const detalhes = [];
+            if (session.mode) detalhes.push('modalidade: ' + session.mode);
+            if (session.payment) detalhes.push('pagamento pretendido: ' + session.payment);
+            const aviso = 'Prontinho! Acrescentei ' + qty + '× Suco de maracujá 300 ml.' +
+                (detalhes.length ? ' Mantive ' + detalhes.join('; ') + '.' : '');
+            // A pergunta seguinte depende dos dados AUSENTES, não do estado antigo.
+            // Isto impede repetir 'é para retirada?' quando a modalidade já foi informada.
+            if (session.state === 'concluido') {
+                render('Fritinho', '<p>' + escapeHTML(aviso) + '</p>' + summaryHTML(true) +
+                    finalizarHTML(), true);
+            } else {
+                render('Fritinho', '<p>' + escapeHTML(aviso) + '</p>' +
+                    summaryHTML(Boolean(session.mode && session.payment)), true);
+                prosseguirFluxo();
+            }
+            return true;
+        }
+
+        // Canal humano: link oficial da Frittin, sem enviar pedido ou dados pessoais automaticamente.
+        const WHATSAPP_EQUIPE = WHATSAPP_CONTATO + '?text=' +
+            encodeURIComponent('Olá! Vim pelo Fritinho e gostaria de falar com a equipe da Frittin.');
+        function oferecerAtendimentoHumano(mensagem) {
+            render('Fritinho', '<p>' + escapeHTML(mensagem) + '</p>' +
+                '<a class="human-action" href="' + WHATSAPP_EQUIPE +
+                '" target="_blank" rel="noopener noreferrer">💬 Falar com a equipe pelo WhatsApp</a>' +
+                '<p class="fineprint">O WhatsApp será aberto para você enviar sua mensagem. ' +
+                'Nenhum pedido é encaminhado automaticamente.</p>', true);
+        }
+        function pediuAtendente(s) {
+            return /\b(atendente|atendimento humano|pessoa de verdade|pessoa real|falar com (?:uma? )?(?:pessoa|equipe|funcionario|responsavel)|whats(?:app)?|suporte humano|ajuda humana)\b/.test(s);
+        }
+
+        // Sabor de pastel fora do cardápio: informar antes de alterar qualquer item.
+        // Não confundir com pedidos de substituição válidos, nem com o nome do cliente.
+        function informarSaborIndisponivel(t) {
+            const s = norm(t).replace(/[.!?]+$/g, '').trim();
+            if (/\b(trocar|troca|troque|substituir|substitui|substitua)\b/.test(s)) return false;
+            const match = s.match(/\bpaste(?:l|is)\s+de\s+([a-z0-9 ]+(?:\s+com\s+[a-z0-9 ]+)*)/);
+            if (!match) return false;
+            let sabor = match[1].trim();
+            // Se houver outro item na mesma frase, examinar apenas o sabor do primeiro pastel.
+            sabor = sabor.split(/\s+(?:e|mais)\s+(?=(?:\d+|um|uma|dois|duas|tres|quatro)\s+|(?:um|uma)\s+|(?:refrigerante|suco|coca|agua|batata)\b)/)[0].trim();
+            const sabores = catalog.filter(p => p.kind === 'pastel');
+            const valido = sabores.some(p => p.aliases.some(a =>
+                sabor === norm(a) ||
+                (sabor.startsWith(norm(a) + ' e ') && /\b(pastel|suco|coca|agua|refrigerante|batata|coxinha)\b/.test(sabor.slice(norm(a).length + 3)))
+            ));
+            if (valido) return false;
+            // Sabor não reconhecido: não inserir item, mesmo se houver outros produtos na frase.
+            oferecerAtendimentoHumano(
+                'Poxa, infelizmente não temos pastel de ' + sabor + ' no nosso cardápio. 💛\n\n' +
+                'Mas temos estes sabores: carne, carne com queijo, frango com queijo, queijo, pizza e calabresa! 🥟\n\n' +
+                'Gostaria de escolher outro sabor? Se preferir, nossa equipe pode ajudar pelo WhatsApp.'
+            );
+            return true;
         }
 
         function respond(t) {
@@ -1286,84 +1802,260 @@
             const intencao = identificarIntencao(t);
 
             if (['reiniciar', 'nova conversa', 'cancelar atendimento'].includes(s)) {
-                reset();
-                return
+                reset(); return;
             }
+            if (session.state === 'encerrado') return;
 
+            const nomeNaFrase = nomeApresentadoNaMensagem(t);
+            const novoNome = Boolean(nomeNaFrase && nomeNaFrase !== session.cliente);
+            if (nomeNaFrase) session.cliente = nomeNaFrase;
+            const perguntouDoNome = perguntaMotivoDoNome(t);
 
-            if (session.state === 'inicio' && !session.cliente) {
-                const itens = parsedItems(t);
-
-                if (itens.length > 0 && hasOrderIntent(t)) {
-                    session.pedidoPendente = t;
+            // Responder à pergunta sobre privacidade em QUALQUER etapa, sem perder
+            // carrinho, modalidade ou pagamento. Nome informado na mesma frase é salvo.
+            if (perguntouDoNome) {
+                const tinhaNome = Boolean(session.cliente);
+                registrarPreferencias(s);
+                say((novoNome ? 'Prazer, ' + session.cliente + '! 💛 ' : '') + explicarUsoDoNome() +
+                    (!tinhaNome ? '\n\nComo posso chamar você?' : ''));
+                // Se perguntou o motivo e fez um pedido na MESMA frase, os itens
+                // também devem ser aproveitados em vez de desaparecerem.
+                if (parsedItems(t).length && hasOrderIntent(t)) {
+                    if (session.items.length) processarAdicaoProdutos(t);
+                    else showDirect(t);
+                } else if (session.state === 'aguardando_nome_final' && tinhaNome && session.items.length) {
+                    complete(session.payment);
                 }
-
-                session.state = 'aguardando_nome';
-
-                if (session.pedidoPendente) {
-                    say(
-                        introductory(t) +
-                        'Já identifiquei seu pedido! 💛 ' +
-                        'Antes de continuarmos, como posso chamar você ' +
-                        'para identificar sua solicitação?'
-                    );
-                } else {
-                    say(
-                        introductory(t) +
-                        'Como posso chamar você? 💛'
-                    );
-                }
-
                 return;
             }
 
+            // Nome isolado informado antes do pedido, ou com saudação.
+            // Não usar esse ramo quando a mesma mensagem também traz produtos.
+            if (nomeNaFrase && !parsedItems(t).length && !detectarModalidade(s) &&
+                !detectarPagamento(s) && !/\b(ja pode fritar|pode fritar|me manda|manda|chave)\b/.test(s) &&
+                !/\b(quero|queria|vou pedir|gostaria de pedir|comprar|adiciona|coloca|acrescenta)\b/.test(s)) {
+                if (session.state === 'aguardando_nome_final' && session.items.length) {
+                    say('Obrigada, ' + session.cliente + '! 💛');
+                    complete(session.payment);
+                } else {
+                    say((/\b(bom dia|boa tarde|boa noite)\b/.test(s) ? greet(t).slice(0, -1) + ', ' : 'Prazer, ') +
+                        session.cliente + '! 💛 Como posso ajudar?');
+                    session.introduced = true;
+                }
+                return;
+            }
 
-            if (session.state === 'aguardando_nome') {
-                const nome = t.trim()
-                    .replace(
-                        /^(?:meu nome (?:é|e)|me chamo|me chama de|pode me chamar de|eu sou|sou)\s+/i,
-                        ''
-                    )
-                    .replace(/[.!?]+$/, '')
-                    .replace(/^(?:a|o)\s+/i, '')
-                    .trim();
+            const modalidadeAnterior = session.mode;
+            const pagamentoAnterior = session.payment;
+            const preparoAnterior = session.fry;
+            // Guarda modalidade, forma de pagamento e autorização mesmo quando estão em outra ordem.
+            registrarPreferencias(s);
+            const itensNaMensagem = parsedItems(t);
+            const temPedidoExplicito = itensNaMensagem.length > 0 && hasOrderIntent(t);
 
-                const nomeValido =
-                    /^[A-Za-zÀ-ÿ]+(?:[ '-][A-Za-zÀ-ÿ]+)*$/.test(nome) &&
-                    nome.length <= 60 &&
-                    nome.split(/\s+/).length <= 5 &&
-                    !hasOrderIntent(t) &&
-                    parsedItems(t).length === 0 &&
-                    !/^(oi|ola|bom dia|boa tarde|boa noite|sim|nao|retirada|pix|dinheiro|debito|credito)$/.test(norm(nome));
-
-                if (!nomeValido) {
-                    say(
-                        'Desculpe, não consegui identificar seu nome. 💛 ' +
-                        'Como posso chamar você?'
-                    );
+            // Perguntas de informação não fazem o cliente perder o carrinho nem a etapa atual.
+            if (foiPerguntaLocal(s)) { mostrarLocalizacao(t); return; }
+            if (foiPerguntaTelefone(s)) { mostrarTelefone(); return; }
+            if (pediuAtendente(s)) {
+                oferecerAtendimentoHumano('Claro! 💛 Você pode falar diretamente com nossa equipe para receber ajuda. Sua conversa aqui será mantida.');
+                return;
+            }
+            if (foiPerguntaDelivery(s)) {
+                say(RESPOSTA_DELIVERY);
+                // Se também informou produtos, aproveitamos os dados, mas não presumimos delivery.
+                if (temPedidoExplicito && !session.items.length) {
+                    session.items = itensNaMensagem;
+                    render('Fritinho', summaryHTML(false), true);
+                    prosseguirFluxo();
+                }
+                return;
+            }
+            if (/\b(fanta|sprite|suco de acerola|suco acerola)\b/.test(s) && responderBebidas(t)) return;
+            if (/\b(quais bebidas|que bebidas|bebidas|refrigerantes|quais sucos|o que tem pra beber)\b/.test(s) && responderBebidas(t)) return;
+            // O 'sim' aqui responde à oferta de bebidas, NÃO à etapa de retirada,
+            // preparo ou finalização que estivesse pendente anteriormente.
+            if (session.ofereceuBebidas) {
+                if (/^(?:sim(?:,? (?:por favor|quero ver|quero conhecer|quero conhecer as opcoes))?|claro|pode (?:mostrar|mandar)(?: as opcoes)?|mostra(?: as opcoes)?|mostrar(?: as opcoes)?|quero (?:ver|conhecer)(?: as opcoes)?|gostaria de (?:ver|conhecer)(?: as opcoes)?|quais (?:sao )?as opcoes|me mostra as opcoes|manda as opcoes|opcoes|ver opcoes(?: de bebidas)?)[.!?]*$/.test(s)) {
+                    session.ofereceuBebidas = false;
+                    listarBebidasDisponiveis();
                     return;
                 }
-
-                session.cliente = nome;
-
-                const pedido = session.pedidoPendente;
-                session.pedidoPendente = '';
-                session.state = 'inicio';
-
-                say('Muito prazer, ' + session.cliente + '! 💛');
-
-                if (pedido) {
-                    showDirect(pedido);
-                } else {
-                    say(
-                        'Como posso ajudar? Você pode conhecer ' +
-                        'nosso cardápio ou me contar o que deseja pedir.'
-                    );
+                if (/^(nao|nao obrigado|nao obrigada|agora nao|deixa pra la)[.!?]*$/.test(s)) {
+                    session.ofereceuBebidas = false;
+                    say('Sem problemas! 💛 Se quiser escolher outra bebida depois, é só me falar.');
+                    return;
                 }
-
+                // O cliente mudou de assunto: não sequestrar a próxima mensagem.
+                session.ofereceuBebidas = false;
+            }
+            // Ex.: 'coloque um suco, será para retirada, vou pagar no dinheiro'.
+            // Guarda retirada/pagamento primeiro; pergunta APENAS o sabor que falta.
+            if (pedidoDeSucoSemSabor(s, itensNaMensagem)) {
+                const qtd = quantidadeDeSuco(s);
+                if (qtd === null) { say('Pode me confirmar a quantidade de sucos, entre 1 e 30? 💛'); return; }
+                session.sucoPendente = qtd;
+                // Uma frase pode pedir um suco sem sabor E produtos já identificados.
+                // Registre apenas os produtos completos, sem inventar o sabor do suco.
+                if (itensNaMensagem.length) {
+                    for (const item of itensNaMensagem) {
+                        const existente = session.items.find(x => x.id === item.id);
+                        if (existente) existente.qty += item.qty;
+                        else session.items.push({...item});
+                    }
+                }
+                const preferencias = [];
+                if (itensNaMensagem.length) preferencias.push('acrescentei ' + itensNaMensagem.map(x => x.qty + '× ' + getItem(x).name).join(', '));
+                if (session.mode && session.mode !== modalidadeAnterior) preferencias.push('anotei ' + session.mode.toLowerCase());
+                if (session.payment && session.payment !== pagamentoAnterior) preferencias.push('pagamento pretendido em ' + session.payment);
+                perguntarSaborSuco(qtd, preferencias.length ? 'Combinado, ' + preferencias.join(' e ') + '.' : '');
+                return;
+            }
+            if (concluirSucoPendente(s)) return;
+            if (foiPerguntaPrecoPastel(s) && !/\b(quais sabores|sabores|cardapio)\b/.test(s)) {
+                say('Nossos pastéis custam R$ 15,00 cada. 💛'); return;
+            }
+            if (/\b(quanto fica tudo|quanto deu|qual o total|total do pedido|quanto fica meu pedido)\b/.test(s) && session.items.length) {
+                say('O total estimado do seu pedido está em ' + money(subtotal(session.items)) + '. 💛'); return;
+            }
+            if (foiPerguntaSabores(s)) { say(cardapio(t)); return; }
+            if (mencionaSomentePastel(s)) {
+                say(/\b(quero|queria|gostaria|me ve)\b/.test(s) ? 'Claro! 💛 Qual sabor de pastel e quantas unidades você gostaria?' : 'Claro! 💛 Você quer saber o preço, conhecer os sabores ou fazer um pedido de pastel?');
+                return;
+            }
+            if (pedidoParaRetiradaSemItem(s) && !session.items.length) {
+                session.mode = 'Retirada';
+                say('Claro, podemos organizar seu pedido para retirada! 💛' +
+                    (session.payment ? ' Anotei o pagamento pretendido em ' + session.payment + '.' : '') +
+                    ' Nossos pastéis custam R$ 15,00 cada. Temos carne, carne com queijo, frango com queijo, queijo, pizza e calabresa. Quais sabores e quantidades deseja? A equipe ainda precisará confirmar o preparo.');
+                return;
+            }
+            // Pedido e Pix na mesma mensagem: primeiro registrar os itens, depois exibir a chave.
+            if (/\b(manda|passe|me passa|me manda|envia|chave)\b.*\bpix\b/.test(s) ||
+                (/^(pix|chave pix)[!?]*$/.test(s) && session.state !== 'pagamento')) {
+                if (!temPedidoExplicito) {
+                    showPix();
+                    say('Essa é uma chave fictícia de demonstração. Pode continuar seu pedido normalmente. 💛');
+                    return;
+                }
+            }
+            // Alterações de modalidade e forma de pagamento são aceitas até após o resumo.
+            if (session.state === 'concluido' && !temPedidoExplicito &&
+                (session.mode !== modalidadeAnterior || session.payment !== pagamentoAnterior)) {
+                render('Fritinho', '<p>Atualizei sua solicitação como você pediu! 💛</p>' +
+                    summaryHTML(true) + finalizarHTML(), true);
+                if (session.payment === 'Pix' && session.payment !== pagamentoAnterior) showPix();
                 return;
             }
 
+            // Permite começar pelo modo, pelo pagamento ou pelo preparo, mesmo sem produtos.
+            const mudouPreferencia = session.mode !== modalidadeAnterior ||
+                session.payment !== pagamentoAnterior || session.fry !== preparoAnterior;
+            if (mudouPreferencia && !temPedidoExplicito && !session.items.length) {
+                let confirmadas = [];
+                if (session.mode && session.mode !== modalidadeAnterior) confirmadas.push(session.mode.toLowerCase());
+                if (session.payment && session.payment !== pagamentoAnterior) confirmadas.push('pagamento pretendido em ' + session.payment);
+                if (session.fry && session.fry !== preparoAnterior) confirmadas.push('autorização de preparo sujeita à confirmação da equipe');
+                say('Combinado! 💛 Anotei ' + confirmadas.join(' e ') + '. Agora me diga quais produtos e quantidades você gostaria de pedir.');
+                return;
+            }
+            // Se informou algo fora da etapa em andamento, aproveita e pergunta só o que falta.
+            if (mudouPreferencia && !temPedidoExplicito && session.items.length &&
+                !['quantidade','sabor','concluido','aguardando_nome_final'].includes(session.state)) {
+                const aviso = session.mode !== modalidadeAnterior ? 'Anotei: ' + session.mode + '. 💛' :
+                    session.payment !== pagamentoAnterior ? 'Anotei sua forma de pagamento: ' + session.payment + '. 💛' :
+                    'Anotei sua preferência sobre o preparo. 💛';
+                say(aviso);
+                prosseguirFluxo();
+                return;
+            }
+            // O cliente pode dizer só uma quantidade e escolher o sabor depois.
+            if (!session.items.length && !session.selection &&
+                /^(?:(?:eu )?(?:quero|queria|gostaria de) )?(?:\d{1,2}|um|uma|dois|duas|tres|quatro|cinco|seis|sete|oito|nove|dez)(?: paste(?:l|is))?[.!?]*$/.test(s)) {
+                say('Claro! 💛 Qual sabor você gostaria? Temos carne, carne com queijo, frango com queijo, queijo, pizza e calabresa.');
+                return;
+            }
+            if (!session.items.length && /\b(aceitam pix|aceita pix|tem pix|pode pagar no pix)\b/.test(s) &&
+                !/\b(vou pagar|quero pagar)\b/.test(s)) {
+                say('Sim! 💛 Trabalhamos com Pix. Se desejar, posso mostrar a chave de demonstração. O que você gostaria de pedir?');
+                return;
+            }
+            if (session.items.length && /\b(mais um igual|mais uma igual|outro igual|outra igual)\b/.test(s)) {
+                if (session.items.length === 1) {
+                    session.items[0].qty += 1;
+                    mostrarPedidoAtualizado('Acrescentei mais uma unidade do mesmo produto.');
+                } else {
+                    say('Claro! 💛 Qual dos sabores do seu pedido você gostaria de repetir?');
+                }
+                return;
+            }
+            // A pessoa pode começar pelo pedido, pelo sabor ou só cumprimentando.
+            // Nunca obrigamos a informar o nome antes de selecionar produtos.
+            if (session.state === 'aguardando_nome_final' || session.state === 'aguardando_nome') {
+                // Nome obrigatório, mas o cliente ainda pode alterar o pedido enquanto
+                // decide; não devemos tratar um novo produto como se fosse um nome.
+                if (session.state === 'aguardando_nome_final' && session.items.length) {
+                    if (processarSubstituicaoExplicita(t)) return;
+                    if (intencao === 'retirar_e_adicionar') {
+                        if (!processarTrocaProdutos(t)) say('Pode me dizer o que deseja retirar e acrescentar, com as quantidades?');
+                        return;
+                    }
+                    if (intencao === 'retirar_produto') {
+                        processarRemocaoProdutos(t);
+                        return;
+                    }
+                    if ((intencao === 'adicionar_produto' || hasOrderIntent(t)) && parsedItems(t).length) {
+                        processarAdicaoProdutos(t);
+                        return;
+                    }
+                }
+                const trechoNome = t.split(/[,.;!?]\s*(?:mas\s+)?(?:por que|porque|pra que|para que)\b/i)[0].trim();
+                const nome = nomeNaFrase || extrairNome(trechoNome);
+                if (!nomeValidoParaAtendimento(nome) || hasOrderIntent(t) ||
+                    parsedItems(t).length > 0) {
+                    say('Para identificar sua solicitação, como posso chamar você? 💛 Pode me dizer apenas seu nome.');
+                    return;
+                }
+                session.cliente = nome;
+                if (session.state === 'aguardando_nome_final') {
+                    say('Obrigada, ' + session.cliente + '! 💛');
+                    complete(session.payment);
+                    return;
+                }
+                // Compatibilidade com uma conversa antiga, iniciada antes desta correção.
+                const pedidoAnterior = session.pedidoPendente;
+                session.pedidoPendente = '';
+                session.state = 'inicio';
+                say('Muito prazer, ' + session.cliente + '! 💛');
+                if (pedidoAnterior) showDirect(pedidoAnterior);
+                else say('Qual produto você gostaria de pedir?');
+                return;
+            }
+
+            // Cliente pode informar o nome espontaneamente, em qualquer ponto do fluxo.
+            const nomeEspontaneo = t.trim().match(/^(?:meu nome (?:é|e)|me chamo|me chama de|pode me chamar de|eu sou)\s+(.+?)\s*[.!?]*$/i);
+            if (nomeEspontaneo && nomeValidoParaAtendimento(extrairNome(t))) {
+                session.cliente = extrairNome(t);
+                say('Prazer, ' + session.cliente + '! 💛 Pode continuar seu pedido.');
+                return;
+            }
+
+            // 'Carne', 'só carne', 'pastel de pizza' etc. são sabores, não nomes.
+            // Se a quantidade não foi indicada, pergunta em vez de presumir 1 unidade.
+            if ((!session.items.length || session.state === 'sabor' || session.state === 'mais') &&
+                session.state !== 'quantidade' && session.state !== 'concluido') {
+                const sabor = saborInformadoSemQuantidade(t);
+                if (sabor) {
+                    session.selection = sabor;
+                    session.state = 'quantidade';
+                    say(introductory(t) + 'Certo! 💛 Quantos pastéis de ' +
+                        sabor.name.replace('Pastel de ', '') + ' você gostaria?');
+                    return;
+                }
+            }
+
+
+            // Validar sabores desconhecidos antes de executar adição/alteração ou estado concluído.
+            if (informarSaborIndisponivel(t)) return;
 
             if (session.retiradaPendenteId != null) {
                 const item = session.items.find(
@@ -1436,8 +2128,26 @@
             }
 
 
+            // Alterações de pagamento concluído têm prioridade sobre respostas genéricas.
+            if (processarAlteracaoPagamento(t)) return;
+
+            // TROCA EXPLÍCITA: 'trocar o pastel de pizza por um de calabresa'.
+            // Executada antes da adição para não incluir o produto antigo por engano.
+            if (session.items.length && processarSubstituicaoExplicita(t)) return;
+
             // Produto e modalidade são operações independentes. As alterações vêm primeiro.
             // Evita que "adiciona suco" seja interpretado como resposta à pergunta de modalidade.
+            if (session.items.length > 0 &&
+                intencao === 'retirar_e_adicionar') {
+
+                if (!processarTrocaProdutos(t)) {
+                    say('Entendi que você deseja retirar e acrescentar produtos. Pode me informar quais são e as quantidades, por favor?');
+                }
+
+                return;
+            }
+
+
             if (session.items.length && intencao === 'retirar_produto') {
                 processarRemocaoProdutos(t);
                 return;
@@ -1451,19 +2161,11 @@
                 return;
             }
 
-            if (session.items.length > 0 &&
-                intencao === 'retirar_e_adicionar') {
-
-                if (!processarTrocaProdutos(t)) {
-                    say('Entendi que você deseja retirar e acrescentar produtos. Pode me informar quais são e as quantidades, por favor?');
-                }
-
-                return;
-            }
-
-
 
             if (session.state === 'confirmar') {
+                if (session.mode && !/\b(corrigir|corrige|corrija|mudar|alterar|trocar|errado)\b/.test(s)) {
+                    prosseguirFluxo(); return;
+                }
                 const pedidoCorrecao = /\b(corrigir|corrige|corrija|mudar|alterar|trocar)\b/.test(s);
                 if (pedidoCorrecao && /\b(retirada|retirar no local|buscar|pegar|levar|viagem|consumir|trailer|comer aqui|no local)\b/.test(s)) {
                     session.mode = /\b(consumir|trailer|comer aqui|no local)\b/.test(s)
@@ -1474,20 +2176,18 @@
                 }
                 if (/(retir|buscar|pegar|levar|viagem)/.test(s)) {
                     session.mode = 'Retirada';
-                    session.state = 'fritar';
-                    say('Perfeito, será para retirada. Já podemos fritar seus pastéis? A equipe ainda precisará confirmar o preparo.')
+                    prosseguirFluxo()
                 }
                 else if (/(consum|trailer|comer aqui|no local)/.test(s)) {
                     session.mode = 'Consumir no trailer';
-                    session.state = 'fritar';
-                    say('Perfeito, será para consumir no trailer. Já podemos fritar seus pastéis? A equipe ainda precisará confirmar o preparo.')
+                    prosseguirFluxo()
                 }
                 else if (no(s) || /\b(corrigir|mudar|trocar|errado)\b/.test(s)) {
                     session.state = 'corrigir';
                     say('Claro! Me envie o pedido completo com as quantidades corrigidas, por favor.')
                 }
                 else if (yes(s)) {
-                    askMode()
+                    prosseguirFluxo()
                 }
                 else {
                     say('Só para eu confirmar direitinho: prefere retirada ou consumir no trailer? Se quiser alterar produtos, diga o que deseja tirar ou acrescentar.')
@@ -1514,11 +2214,10 @@
                     session.mode = 'Consumir no trailer'
                 }
                 else {
-                    say('Desculpe, acho que não entendi direitinho. Você prefere retirar seu pedido ou consumir aqui no nosso trailer?');
+                    oferecerAtendimentoHumano('Desculpe, acho que não entendi direitinho. Você prefere retirar seu pedido ou consumir aqui no nosso trailer? Se precisar, nossa equipe pode ajudar.');
                     return
                 }
-                session.state = 'fritar';
-                say('Combinado! Já podemos fritar seus pastéis? A equipe ainda precisará confirmar o preparo.');
+                prosseguirFluxo();
                 return
             }
 
@@ -1530,11 +2229,10 @@
                     session.fry = 'Sim, sujeito à confirmação da equipe'
                 }
                 else {
-                    say('Só para confirmar: já podemos fritar ou prefere aguardar um pouco?');
+                    oferecerAtendimentoHumano('Só para confirmar: já podemos fritar ou prefere aguardar um pouco? Se preferir, fale com nossa equipe.');
                     return
                 }
-                session.state = 'pagamento';
-                say('Perfeito! Qual será a forma de pagamento? Pix, dinheiro, débito ou crédito?');
+                prosseguirFluxo();
                 return
             }
 
@@ -1552,12 +2250,18 @@
                 else if (s.includes('credito') || s.includes('cartao'))
                     complete('Crédito — presencial');
                 else
-                    say('Você prefere pagar por Pix, dinheiro, débito ou crédito?');
+                    oferecerAtendimentoHumano('Você prefere pagar por Pix, dinheiro, débito ou crédito? Se precisar, nossa equipe pode ajudar.');
                 return
             }
 
 
             if (session.state === 'concluido') {
+                if (yes(s) || /^(?:sim[, ]*)?(?:finalizar|finaliza|finalize|pode finalizar|encerrar atendimento|concluir pedido|finalizar demonstracao)[.!?]*$/.test(s)) {
+                    finalizarDemonstracao(); return;
+                }
+                if (no(s) || /\b(nao quero finalizar|quero alterar|preciso alterar)\b/.test(s)) {
+                    say('Sem problemas! 💛 O que você gostaria de alterar? Pode acrescentar, retirar ou trocar produtos, a modalidade ou o pagamento.'); return;
+                }
 
                 // Retirada e acréscimo na mesma mensagem.
                 const operacoesJuntas = s.match(
@@ -1732,7 +2436,7 @@
                     session.state = 'corrigir';
                     say('Claro! Me envie o pedido completo com as quantidades corrigidas.');
                 } else {
-                    say('Sua solicitação está organizada e aguarda confirmação da equipe. Se desejar acrescentar algo, é só me dizer.');
+                    oferecerAtendimentoHumano('Sua solicitação está organizada e aguarda confirmação da equipe. Se desejar acrescentar algo, é só me dizer. Se precisar de ajuda, pode falar com nossa equipe.');
                 }
 
                 return;
@@ -1742,19 +2446,23 @@
             if (session.state === 'sabor') {
                 const num = Number(s);
                 const flavors = catalog.filter(p => p.kind === 'pastel');
-                if (Number.isInteger(num) && num >= 1 && num <= 6) {
-                    session.selection = flavors[num - 1];
+                const escolhido = (Number.isInteger(num) && num >= 1 && num <= 6)
+                    ? flavors[num - 1] : saborInformadoSemQuantidade(t);
+                if (escolhido) {
+                    session.selection = escolhido;
                     session.state = 'quantidade';
-                    say('Quantos pastéis de ' + session.selection.name.replace('Pastel de ', '') + ' você deseja?')
-                }
-                else
-                    say('Para escolher um sabor, digite um número de 1 a 6, por favor.');
-                return
+                    say('Quantos pastéis de ' + session.selection.name.replace('Pastel de ', '') + ' você deseja?');
+                } else say('Qual sabor você prefere? Pode dizer carne, pizza, queijo, calabresa, carne com queijo ou frango com queijo.');
+                return;
             }
 
             if (session.state === 'quantidade') {
-                const n = Number(s);
-                if (Number.isInteger(n) && n >= 1 && n <= 30) {
+                if (mudouPreferencia && !temPedidoExplicito) {
+                    say('Anotei essa informação! 💛 Quantos pastéis de ' + session.selection.name.replace('Pastel de ', '') + ' você gostaria?');
+                    return;
+                }
+                const n = quantidadeDaResposta(t);
+                if (n !== null && session.selection) {
                     const old = session.items.find(x => x.id === session.selection.id);
                     if (old)
                         old.qty += n;
@@ -1774,8 +2482,9 @@
                     say('Escolha o próximo sabor: 1 Carne; 2 Carne com queijo; 3 Frango com queijo; 4 Queijo; 5 Pizza; 6 Calabresa.')
                 }
                 else if (no(s)) {
-                    render('Fritinho', summaryHTML() + 'É para retirada ou para consumir no trailer?', true);
-                    session.state = 'tipo'
+                    // Não repetir modalidade, fritura ou pagamento já informados.
+                    render('Fritinho', summaryHTML(false), true);
+                    prosseguirFluxo();
                 }
                 else {
                     say('Você gostaria de adicionar outro sabor? Pode responder sim ou não.')
@@ -1813,18 +2522,20 @@
                 return
             }
 
-            say(introductory(t) + 'Posso ajudar com os sabores, preços e pedidos da Frittin. Quer conhecer o cardápio ou fazer um pedido?')
+            oferecerAtendimentoHumano(introductory(t) + 'Desculpe, não consegui entender sua solicitação. 💛 Você pode reformular a mensagem, pedir o cardápio ou falar diretamente com nossa equipe.')
 
         }
         function reset() {
             geracaoConversa++;
+            ultimaAtividade = Date.now();
+            clearTimeout(encerramentoTimer);
             if (envioTimer) clearTimeout(envioTimer);
             enviando = false;
             pendingInput = null;
             session = {
                 cliente: '',
                 pedidoPendente: '',
-                state: 'inicio', items: [], selection: null, mode: '', fry: '', payment: '', introduced: false
+                state: 'inicio', items: [], selection: null, mode: '', fry: '', payment: '', sucoPendente: 0, ofereceuBebidas: false, introduced: false
             };
             chat.replaceChildren();
             const w = document.createElement('div');
@@ -1833,6 +2544,8 @@
             w.innerHTML = '<div class="mark"><img src="mascote_fritinho.png" alt="Mascote Fritinho"></div><b>Bem-vindo à Frittin!</b><p>Escreva sua mensagem para começar. Você pode perguntar pelos sabores ou informar diretamente o que deseja.</p>';
             chat.append(w);
             field.value = '';
+            field.disabled = false;
+            document.querySelector('.send').disabled = false;
             salvarAtendimento();
             field.focus()
         }
@@ -1840,7 +2553,9 @@
         // Salva a conversa localmente para recuperar após recarga acidental.
         // Não envia pedidos ou dados do cliente a nenhum servidor.
         const STORAGE_KEY = 'fritinho-atendimento-2026:' + location.pathname;
-        const STORAGE_VERSION = 1;
+        const STORAGE_VERSION = 4;
+        const MAX_IDLE_MS = 60 * 60 * 1000; // Uma hora sem interação: começa nova conversa.
+        let ultimaAtividade = Date.now();
         let enviando = false;
         let pendingInput = null;
         let envioTimer = null;
@@ -1849,6 +2564,7 @@
             try {
                 const estado = {
                     version: STORAGE_VERSION,
+                    ultimaAtividade,
                     session: session,
                     conversa: chat.innerHTML,
                     rascunho: field.value,
@@ -1867,20 +2583,32 @@
                 if (!raw) return;
                 const estado = JSON.parse(raw);
                 if (!estado || estado.version !== STORAGE_VERSION ||
+                    !Number.isFinite(estado.ultimaAtividade) || Date.now() - estado.ultimaAtividade > MAX_IDLE_MS ||
                     !estado.session || !Array.isArray(estado.session.items) ||
                     typeof estado.conversa !== 'string' || estado.conversa.length > 900000) return;
                 if (estado.session.items.some(it => !catalog.some(p => p.id === it.id) ||
                     !Number.isInteger(it.qty) || it.qty < 1 || it.qty > 1000)) return;
                 const temp = document.createElement('template');
                 temp.innerHTML = estado.conversa;
-                const permitidos = new Set(['DIV', 'SPAN', 'P', 'B', 'STRONG', 'CODE', 'BUTTON', 'IMG', 'H3']);
+                const permitidos = new Set(['DIV', 'SPAN', 'P', 'B', 'STRONG', 'CODE', 'BUTTON', 'IMG', 'H3', 'A']);
                 for (const el of [...temp.content.querySelectorAll('*')]) {
                     if (!permitidos.has(el.tagName)) { el.remove(); continue; }
                     for (const a of [...el.attributes]) {
-                        if (!['class','id','alt','src','type','data-resposta'].includes(a.name) ||
-                            (a.name === 'src' && a.value !== 'mascote_fritinho.png')) el.removeAttribute(a.name);
+                        if (!['class','id','alt','src','type','data-resposta','data-assinatura','href','target','rel'].includes(a.name) ||
+                            (a.name === 'src' && a.value !== 'mascote_fritinho.png') ||
+                            (a.name === 'href' && ![WHATSAPP_EQUIPE, WHATSAPP_CONTATO, MAPS_URL, TELEFONE_URL].includes(a.value)) ||
+                            (a.name === 'target' && a.value !== '_blank') ||
+                            (a.name === 'rel' && a.value !== 'noopener noreferrer')) el.removeAttribute(a.name);
                     }
                 }
+                if (estado.session.state === 'encerrado') return;
+                // Volta em minutos: restaura; após 15 min: oferece escolher; após 1h: expira.
+                if (Date.now() - estado.ultimaAtividade > 15 * 60 * 1000 &&
+                    !window.confirm('Encontramos uma conversa anterior. Deseja continuar de onde parou?\n\nClique em Cancelar para começar um atendimento novo.')) {
+                    localStorage.removeItem(STORAGE_KEY);
+                    return;
+                }
+                ultimaAtividade = estado.ultimaAtividade;
                 session = estado.session;
                 chat.replaceChildren(temp.content);
                 field.value = typeof estado.rascunho === 'string' ? estado.rascunho.slice(0,600) : '';
@@ -1900,7 +2628,7 @@
             try { respond(t); }
             catch (err) {
                 console.error(err);
-                say('Desculpe, houve um problema nesta etapa. Sua conversa foi preservada; tente novamente.');
+                oferecerAtendimentoHumano('Desculpe, houve um problema nesta etapa. Sua conversa foi preservada. Você pode tentar novamente ou falar com nossa equipe.');
             } finally {
                 enviando = false;
                 pendingInput = null;
@@ -1913,6 +2641,7 @@
             if (enviando || !t.trim()) return;
             enviando = true;
             pendingInput = t;
+            ultimaAtividade = Date.now();
             const estaGeracao = geracaoConversa;
             field.value = '';
             document.querySelectorAll('.quick-replies').forEach(el => el.remove());
@@ -1932,9 +2661,12 @@
         function atualizarRespostasRapidas() {
             document.querySelectorAll('.quick-replies').forEach(el => el.remove());
             let opcoes = [];
-            if (['confirmar','tipo'].includes(session.state)) opcoes = ['Retirada','Consumir no trailer'];
-            else if (session.state === 'fritar') opcoes = ['Sim, pode fritar','Ainda não'];
-            else if (session.state === 'pagamento') opcoes = ['Pix','Dinheiro','Débito','Crédito'];
+            if (session.sucoPendente) return; // Estamos esperando sabor, não modalidade.
+            if (session.ofereceuBebidas) opcoes = ['Ver opções de bebidas', 'Não, obrigado'];
+            else if (['confirmar','tipo'].includes(session.state) && !session.mode) opcoes = ['Retirada','Consumir no trailer'];
+            else if (session.state === 'fritar' && !session.fry) opcoes = ['Sim, pode fritar','Ainda não'];
+            else if (session.state === 'pagamento' && !session.payment) opcoes = ['Pix','Dinheiro','Débito','Crédito'];
+            else if (session.state === 'concluido') opcoes = ['Sim, finalizar','Quero alterar'];
             if (!opcoes.length) return;
             const bar = document.createElement('div');
             bar.className = 'quick-replies';
@@ -1963,6 +2695,10 @@
             setTimeout(() => { btn.textContent = 'Copiar chave Pix'; salvarAtendimento(); },2000);
         }
         chat.addEventListener('click', e => {
+            const fin = e.target.closest('button.demo-finalizar');
+            if (fin) { finalizarDemonstracao(); return; }
+            const sim = e.target.closest('button.simular-pagamento');
+            if (sim) { simularRespostaPagamento(sim); return; }
             const c = e.target.closest('button.copy');
             if (c) { copiarPix(c); return; }
             const b = e.target.closest('button[data-resposta]');
@@ -1978,7 +2714,7 @@
             focoAnterior = document.activeElement;
             modalTitle.textContent = tipo === 'local' ? '📍 Localização' : '❔ Ajuda';
             modalBody.innerHTML = tipo === 'local'
-                ? '<h3>Onde estamos</h3><p><b>Praça da Boa Vizinhança</b><br>Cohaserma — São Luís/MA</p><p>Atendimento para retirada ou consumo no trailer.</p><p><b>Não fazemos delivery.</b></p>'
+                ? '<h3>Onde estamos</h3>' + painelContatoHTML() + '<p>Atendimento para retirada ou consumo no trailer. <b>Não fazemos delivery.</b></p>'
                 : '<h3>Como pedir com o Fritinho</h3><ol><li>Informe seu pedido.</li><li>Adicione, retire ou troque produtos se precisar.</li><li>Escolha retirada ou consumo no trailer.</li><li>Aguarde a confirmação da equipe.</li></ol><p>Você pode escrever suas dúvidas normalmente.</p>';
             overlay.hidden = false;
             overlay.setAttribute('aria-hidden','false');
@@ -1999,6 +2735,29 @@
                 e.preventDefault(); modalClose.focus();
             }
         });
+        let maiorAlturaMovel = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        function ajustarViewportMovel() {
+            if (window.innerWidth <= 850 && window.visualViewport) {
+                const alturaVisivel = Math.round(window.visualViewport.height);
+                maiorAlturaMovel = Math.max(maiorAlturaMovel, alturaVisivel);
+                document.documentElement.style.setProperty('--viewport-height', alturaVisivel + 'px');
+                const tecladoAberto = document.activeElement === field && maiorAlturaMovel - alturaVisivel > 130;
+                document.documentElement.classList.toggle('keyboard-open', tecladoAberto);
+                // A conversa permanece no espaço disponível, logo acima do teclado nativo.
+                if (document.activeElement === field) {
+                    requestAnimationFrame(() => { chat.scrollTop = chat.scrollHeight; });
+                }
+            } else {
+                document.documentElement.classList.remove('keyboard-open');
+                document.documentElement.style.removeProperty('--viewport-height');
+            }
+        }
+        window.addEventListener('orientationchange', () => { maiorAlturaMovel = 0; });
+        if (window.visualViewport) window.visualViewport.addEventListener('resize', ajustarViewportMovel);
+        window.addEventListener('resize', ajustarViewportMovel);
+        field.addEventListener('focus', ajustarViewportMovel);
+        ajustarViewportMovel();
+
         window.addEventListener('pagehide', salvarAtendimento);
         document.addEventListener('visibilitychange', () => { if (document.hidden) salvarAtendimento(); });
         field.addEventListener('input', salvarAtendimento);
